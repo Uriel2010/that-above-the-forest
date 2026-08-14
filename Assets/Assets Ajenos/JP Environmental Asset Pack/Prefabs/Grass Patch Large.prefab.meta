@@ -1,6 +1,6 @@
 fileFormatVersion: 2
-guid: 9fc0d4010bbf28b4594072e72b8655ab
-DefaultImporter:
+guid: 98a359d63c95b74479b90b53b0631766
+PrefabImporter:
   externalObjects: {}
   userData: 
   assetBundleName: 
@@ -10,5 +10,5 @@ AssetOrigin:
   productId: 170036
   packageName: Environmental Asset Pack
   packageVersion: 1.0
-  assetPath: Assets/ModularFirstPersonController/DemoScene/Demo.unity
+  assetPath: Assets/JP Environmental Asset Pack/Prefabs/Grass Patch Large.prefab
   uploadId: 371416

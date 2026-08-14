@@ -1,7 +1,8 @@
 fileFormatVersion: 2
-guid: 9fc0d4010bbf28b4594072e72b8655ab
-DefaultImporter:
+guid: e3baa8a7616a7fe4883e2ffd1b175218
+NativeFormatImporter:
   externalObjects: {}
+  mainObjectFileID: 8574412962073106934
   userData: 
   assetBundleName: 
   assetBundleVariant: 
@@ -10,5 +11,6 @@ AssetOrigin:
   productId: 170036
   packageName: Environmental Asset Pack
   packageVersion: 1.0
-  assetPath: Assets/ModularFirstPersonController/DemoScene/Demo.unity
+  assetPath: Assets/JP Environmental Asset Pack/Materials/Terrain Materials/Rock
+    Floor 1.terrainlayer
   uploadId: 371416
