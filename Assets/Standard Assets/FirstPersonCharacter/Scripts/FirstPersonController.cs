@@ -29,6 +29,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private AudioClip m_JumpSound;           // the sound played when character leaves the ground.
         [SerializeField] private AudioClip m_LandSound;           // the sound played when character touches back on ground.
 
+        [Header("Crouch")]
+        [SerializeField] private KeyCode m_CrouchKey = KeyCode.LeftControl;
+        [SerializeField] private float m_CrouchSpeed = 1.5f;
+        [SerializeField] [Range(0.3f, 0.9f)] private float m_CrouchHeightMultiplier = 0.5f;
+        [SerializeField] private float m_CrouchTransitionSpeed = 8f;
+        [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -43,6 +50,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private bool m_Jumping;
         private AudioSource m_AudioSource;
 
+        private bool m_IsCrouching;
+        private float m_OriginalHeight;
+        private Vector3 m_OriginalCenter;
+
         // Use this for initialization
         private void Start()
         {
@@ -56,6 +67,9 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_Jumping = false;
             m_AudioSource = GetComponent<AudioSource>();
 			m_MouseLook.Init(transform , m_Camera.transform);
+
+            m_OriginalHeight = m_CharacterController.height;
+            m_OriginalCenter = m_CharacterController.center;
         }
 
 
@@ -68,6 +82,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
             }
+
+            HandleCrouch();
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
@@ -114,12 +130,16 @@ namespace UnityStandardAssets.Characters.FirstPerson
             {
                 m_MoveDir.y = -m_StickToGroundForce;
 
-                if (m_Jump)
+                if (m_Jump && !m_IsCrouching)
                 {
                     m_MoveDir.y = m_JumpSpeed;
                     PlayJumpSound();
                     m_Jump = false;
                     m_Jumping = true;
+                }
+                else
+                {
+                    m_Jump = false;
                 }
             }
             else
@@ -217,6 +237,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
+
+            // agachado siempre pisa la velocidad, sea que estuviera caminando o corriendo
+            if (m_IsCrouching)
+            {
+                speed = m_CrouchSpeed;
+            }
+
             m_Input = new Vector2(horizontal, vertical);
 
             // normalize input if it exceeds 1 in combined length:
@@ -238,6 +265,47 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void RotateView()
         {
             m_MouseLook.LookRotation (transform, m_Camera.transform);
+        }
+
+
+        // Maneja la transición al agacharse / pararse, moviendo la altura y el centro
+        // del CharacterController de forma suave. Si hay un techo bajo, no deja que se pare.
+        private void HandleCrouch()
+        {
+            bool crouchKeyHeld = Input.GetKey(m_CrouchKey);
+
+            // si ya está agachado y quiere pararse pero no hay espacio, lo forzamos a seguir agachado
+            if (!crouchKeyHeld && m_IsCrouching && !CanStandUp())
+            {
+                crouchKeyHeld = true;
+            }
+
+            m_IsCrouching = crouchKeyHeld;
+
+            float targetHeight = m_IsCrouching ? m_OriginalHeight * m_CrouchHeightMultiplier : m_OriginalHeight;
+            m_CharacterController.height = Mathf.Lerp(m_CharacterController.height, targetHeight,
+                Time.deltaTime * m_CrouchTransitionSpeed);
+
+            Vector3 targetCenter = m_IsCrouching
+                ? new Vector3(m_OriginalCenter.x, m_OriginalCenter.y * m_CrouchHeightMultiplier, m_OriginalCenter.z)
+                : m_OriginalCenter;
+            m_CharacterController.center = Vector3.Lerp(m_CharacterController.center, targetCenter,
+                Time.deltaTime * m_CrouchTransitionSpeed);
+        }
+
+
+        // Chequea con un raycast hacia arriba si hay espacio suficiente para volver a la altura normal
+        private bool CanStandUp()
+        {
+            float checkDistance = m_OriginalHeight - m_CharacterController.height;
+            if (checkDistance <= 0f)
+            {
+                return true;
+            }
+
+            Vector3 origin = transform.position + Vector3.up * m_CharacterController.height;
+            return !Physics.Raycast(origin, Vector3.up, checkDistance + 0.05f, m_CeilingCheckMask,
+                QueryTriggerInteraction.Ignore);
         }
 
 
