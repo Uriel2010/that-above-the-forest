@@ -1,9 +1,17 @@
 fileFormatVersion: 2
+<<<<<<<< HEAD:Assets/Materials/moon_01_arm_1k.jpg.meta
+guid: 8e0f78b8850ffe34e8a52b21d52aed54
+TextureImporter:
+  internalIDToNameTable: []
+  externalObjects: {}
+  serializedVersion: 13
+========
 guid: 94029e6ba24e4154f8eb005209903b77
 TextureImporter:
   internalIDToNameTable: []
   externalObjects: {}
   serializedVersion: 11
+>>>>>>>> 73bab9fe73852d4238a50aae35f287f400dcd826:Assets/Realistic Tree/Source/Materials/HDRP/Falling Leaves/Birch1_Single.png.meta
   mipmaps:
     mipMapMode: 0
     enableMipMap: 1
@@ -20,10 +28,15 @@ TextureImporter:
     externalNormalMap: 0
     heightScale: 0.25
     normalMapFilter: 0
+    flipGreenChannel: 0
   isReadable: 0
   streamingMipmaps: 0
   streamingMipmapsPriority: 0
   vTOnly: 0
+<<<<<<<< HEAD:Assets/Materials/moon_01_arm_1k.jpg.meta
+  ignoreMipmapLimit: 0
+========
+>>>>>>>> 73bab9fe73852d4238a50aae35f287f400dcd826:Assets/Realistic Tree/Source/Materials/HDRP/Falling Leaves/Birch1_Single.png.meta
   grayScaleToAlpha: 0
   generateCubemap: 6
   cubemapConvolution: 0
@@ -62,8 +75,11 @@ TextureImporter:
   textureFormatSet: 0
   ignorePngGamma: 0
   applyGammaDecoding: 0
+<<<<<<<< HEAD:Assets/Materials/moon_01_arm_1k.jpg.meta
+  swizzle: 50462976
+  cookieLightType: 0
   platformSettings:
-  - serializedVersion: 3
+  - serializedVersion: 4
     buildTarget: DefaultTexturePlatform
     maxTextureSize: 2048
     resizeAlgorithm: 0
@@ -73,12 +89,37 @@ TextureImporter:
     crunchedCompression: 0
     allowsAlphaSplitting: 0
     overridden: 0
+    ignorePlatformSupport: 0
+    androidETC2FallbackOverride: 0
+    forceMaximumCompressionQuality_BC6H_BC7: 0
+  - serializedVersion: 4
+    buildTarget: Standalone
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+========
+  platformSettings:
+  - serializedVersion: 3
+    buildTarget: DefaultTexturePlatform
+    maxTextureSize: 2048
+    resizeAlgorithm: 0
+>>>>>>>> 73bab9fe73852d4238a50aae35f287f400dcd826:Assets/Realistic Tree/Source/Materials/HDRP/Falling Leaves/Birch1_Single.png.meta
+    textureFormat: -1
+    textureCompression: 1
+    compressionQuality: 50
+    crunchedCompression: 0
+    allowsAlphaSplitting: 0
+    overridden: 0
+<<<<<<<< HEAD:Assets/Materials/moon_01_arm_1k.jpg.meta
+    ignorePlatformSupport: 0
+========
+>>>>>>>> 73bab9fe73852d4238a50aae35f287f400dcd826:Assets/Realistic Tree/Source/Materials/HDRP/Falling Leaves/Birch1_Single.png.meta
     androidETC2FallbackOverride: 0
     forceMaximumCompressionQuality_BC6H_BC7: 0
   spriteSheet:
     serializedVersion: 2
     sprites: []
     outline: []
+    customData: 
     physicsShape: []
     bones: []
     spriteID: 
@@ -88,6 +129,16 @@ TextureImporter:
     edges: []
     weights: []
     secondaryTextures: []
+<<<<<<<< HEAD:Assets/Materials/moon_01_arm_1k.jpg.meta
+    spriteCustomMetadata:
+      entries: []
+    nameFileIdTable: {}
+  mipmapLimitGroupName: 
+  pSDRemoveMatte: 0
+  userData: 
+  assetBundleName: 
+  assetBundleVariant: 
+========
   spritePackingTag: 
   pSDRemoveMatte: 0
   pSDShowRemoveMatteOption: 0
@@ -101,3 +152,4 @@ AssetOrigin:
   packageVersion: 1.0
   assetPath: Assets/Realistic Tree/Source/Materials/HDRP/Falling Leaves/Birch1_Single.png
   uploadId: 519026
+>>>>>>>> 73bab9fe73852d4238a50aae35f287f400dcd826:Assets/Realistic Tree/Source/Materials/HDRP/Falling Leaves/Birch1_Single.png.meta
