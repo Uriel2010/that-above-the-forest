@@ -1,11 +1,5 @@
 {
   "dependencies": {
-    "com.unity.2d.sprite": {
-      "version": "1.0.0",
-      "depth": 0,
-      "source": "builtin",
-      "dependencies": {}
-    },
     "com.unity.cinemachine": {
       "version": "3.1.7",
       "depth": 0,
@@ -16,9 +10,13 @@
       },
       "url": "https://packages.unity.com"
     },
-    "com.unity.mathematics": {
-      "version": "1.4.0",
-      "depth": 2,
+    "com.unity.2d.sprite": {
+      "version": "1.0.0",
+      "depth": 0,
+      "source": "registry",
+      "dependencies": {}
+    },
+
       "source": "builtin",
       "dependencies": {}
     },
