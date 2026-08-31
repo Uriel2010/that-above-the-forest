@@ -5,7 +5,7 @@ public class LanternController : MonoBehaviour
 {
     [SerializeField] private Light lantern;
 
-    [SerializeField] private float intensidadAlta = 20f;
+    [SerializeField] private float intensidadAlta = 6f;
     [SerializeField] private float intensidadBaja = 3f;
     [SerializeField] private float rangoAlto = 20f;
     [SerializeField] private float rangoBajo = 10f;
