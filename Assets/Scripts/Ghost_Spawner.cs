@@ -1,8 +1,7 @@
 using UnityEngine;
-using UnityEngine.AI;
 using System.Collections;
 
-public class GhostSpawner : MonoBehaviour
+public class Ghost_Spawner : MonoBehaviour
 {
     [Header("Fantasma")]
     public GameObject ghostPrefab;
@@ -10,41 +9,42 @@ public class GhostSpawner : MonoBehaviour
     [Header("Zona de aparición")]
     public Transform spawnArea;
 
-    [Header("Tiempo")]
+    [Header("Tiempo de aparición")]
     public float minAppearTime = 5f;
-    public float maxAppearTime = 15f;
+    public float maxAppearTime = 10f;
 
-    [Header("Duración")]
+    [Header("Tiempo que permanece")]
     public float minLifeTime = 10f;
-    public float maxLifeTime = 25f;
+    public float maxLifeTime = 20f;
 
     [Header("Movimiento")]
-    public float moveRadius = 15f;
-    public float waitAtPoint = 2f;
+    public float moveSpeed = 1.5f;
+    public float waitTime = 2f;
 
     private GameObject currentGhost;
 
     void Start()
     {
-        StartCoroutine(GhostRoutine());
+       Debug.Log("👻 Ghost Spawner iniciado");
+        StartCoroutine(SpawnGhost());
     }
 
-    IEnumerator GhostRoutine()
+    IEnumerator SpawnGhost()
     {
         while (true)
         {
             // Esperar antes de aparecer
-            float appearTime = Random.Range(
+            float waitBeforeSpawn = Random.Range(
                 minAppearTime,
                 maxAppearTime
             );
 
-            yield return new WaitForSeconds(appearTime);
+            yield return new WaitForSeconds(waitBeforeSpawn);
 
             // Buscar posición aleatoria
             Vector3 spawnPosition;
 
-            if (GetRandomSpawnPosition(out spawnPosition))
+            if (GetRandomPosition(out spawnPosition))
             {
                 // Crear fantasma
                 currentGhost = Instantiate(
@@ -52,14 +52,20 @@ public class GhostSpawner : MonoBehaviour
                     spawnPosition,
                     Quaternion.identity
                 );
+                Debug.Log("👻 ¡FANTASMA APARECIÓ! Posición: " + spawnPosition);
 
-                // Agregar IA
-                GhostAI ghostAI = currentGhost.AddComponent<GhostAI>();
+                // Configurar movimiento
+                GhostAI movement =
+                    currentGhost.GetComponent<GhostAI>();
 
-                ghostAI.moveRadius = moveRadius;
-                ghostAI.waitTime = waitAtPoint;
+                if (movement != null)
+                {
+                    movement.spawnArea = spawnArea;
+                    movement.moveSpeed = moveSpeed;
+                    movement.waitTime = waitTime;
+                }
 
-                // Tiempo que permanece
+                // Esperar mientras el fantasma está activo
                 float lifeTime = Random.Range(
                     minLifeTime,
                     maxLifeTime
@@ -67,39 +73,45 @@ public class GhostSpawner : MonoBehaviour
 
                 yield return new WaitForSeconds(lifeTime);
 
-                // Desaparecer
+                // Destruir fantasma
                 if (currentGhost != null)
                 {
                     Destroy(currentGhost);
                     currentGhost = null;
+                    Debug.Log("👻 Fantasma desapareció");
                 }
             }
 
-            // Pequeña espera antes de volver a intentar
             yield return new WaitForSeconds(1f);
         }
     }
 
-    bool GetRandomSpawnPosition(out Vector3 result)
+    bool GetRandomPosition(out Vector3 result)
     {
         result = Vector3.zero;
 
         if (spawnArea == null)
-            return false;
-
-        Collider areaCollider = spawnArea.GetComponent<Collider>();
-
-        if (areaCollider == null)
         {
             Debug.LogWarning(
-                "GhostSpawnArea necesita un Collider."
+                "Ghost Spawner: falta Spawn Area."
             );
-
             return false;
         }
 
-        Bounds bounds = areaCollider.bounds;
+        BoxCollider area =
+            spawnArea.GetComponent<BoxCollider>();
 
+        if (area == null)
+        {
+            Debug.LogWarning(
+                "GhostSpawnArea necesita un Box Collider."
+            );
+            return false;
+        }
+
+        Bounds bounds = area.bounds;
+
+        // Intentar 20 posiciones diferentes
         for (int i = 0; i < 20; i++)
         {
             float randomX = Random.Range(
@@ -118,18 +130,26 @@ public class GhostSpawner : MonoBehaviour
                 randomZ
             );
 
-            NavMeshHit hit;
+            UnityEngine.AI.NavMeshHit hit;
 
-            if (NavMesh.SamplePosition(
+            if (UnityEngine.AI.NavMesh.SamplePosition(
                 randomPoint,
                 out hit,
                 5f,
-                NavMesh.AllAreas))
+                UnityEngine.AI.NavMesh.AllAreas))
             {
-                result = hit.position;
-                return true;
+                if (bounds.Contains(hit.position))
+                {
+                    Debug.Log("👻 Posición encontrada: " + hit.position);
+                    result = hit.position;
+                    return true;
+                }
             }
         }
+
+        Debug.LogWarning(
+            "No encontré una posición válida para el fantasma."
+        );
 
         return false;
     }

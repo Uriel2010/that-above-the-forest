@@ -630,7 +630,7 @@ GameObject:
   - component: {fileID: 430896343}
   - component: {fileID: 430896342}
   - component: {fileID: 430896341}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dibujo (1)
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -878,8 +878,8 @@ MonoBehaviour:
   maxAppearTime: 10
   minLifeTime: 10
   maxLifeTime: 20
-  moveRadius: 15
-  waitAtPoint: 2
+  moveSpeed: 1.5
+  waitTime: 2
 --- !u!4 &592401060
 Transform:
   m_ObjectHideFlags: 0
@@ -907,7 +907,7 @@ GameObject:
   - component: {fileID: 665855885}
   - component: {fileID: 665855884}
   - component: {fileID: 665855883}
-  m_Layer: 0
+  m_Layer: 6
   m_Name: Cabana
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1019,7 +1019,7 @@ GameObject:
   - component: {fileID: 844889067}
   - component: {fileID: 844889066}
   - component: {fileID: 844889065}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dibujo
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1129,7 +1129,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 850514340}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: DIbujos
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1503,6 +1503,10 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      propertyPath: m_LandSound
+      value: 
+      objectReference: {fileID: 8300000, guid: 42e65e088b3f4374e851b8dbd38f3df9, type: 3}
     - target: {fileID: 8301348219254906557, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       propertyPath: m_BackGroundColor.b
       value: 0
@@ -1521,11 +1525,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8301348219256438973, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.5
+      value: 4.03
       objectReference: {fileID: 0}
     - target: {fileID: 8301348219256438973, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 159.6
+      value: 95.9
       objectReference: {fileID: 0}
     - target: {fileID: 8301348219256438973, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       propertyPath: m_LocalRotation.w
@@ -1601,9 +1605,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: Unity.AI.Navigation::Unity.AI.Navigation.NavMeshSurface
   m_SerializedVersion: 0
   m_AgentTypeID: 0
-  m_CollectObjects: 0
-  m_Size: {x: 10, y: 10, z: 10}
-  m_Center: {x: 0, y: 2, z: 0}
+  m_CollectObjects: 1
+  m_Size: {x: 30, y: 5, z: 30}
+  m_Center: {x: 50, y: 0, z: 50}
   m_LayerMask:
     serializedVersion: 2
     m_Bits: 4294967295
@@ -1617,7 +1621,7 @@ MonoBehaviour:
   m_OverrideVoxelSize: 0
   m_VoxelSize: 0.16666667
   m_MinRegionArea: 2
-  m_NavMeshData: {fileID: 0}
+  m_NavMeshData: {fileID: 23800000, guid: a94eff8b128444024a631c670b1f316b, type: 2}
   m_BuildHeightMesh: 0
 --- !u!4 &1296620234
 Transform:
@@ -1628,7 +1632,7 @@ Transform:
   m_GameObject: {fileID: 1296620232}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 9.51449, y: 2.24234, z: 10.35004}
+  m_LocalPosition: {x: 9.4, y: 3.84, z: 41.8}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1646,7 +1650,7 @@ GameObject:
   - component: {fileID: 1370855327}
   - component: {fileID: 1370855326}
   - component: {fileID: 1370855325}
-  m_Layer: 0
+  m_Layer: 7
   m_Name: Dibujo 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1893,7 +1897,7 @@ Transform:
   m_GameObject: {fileID: 1783817413}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 55.3, y: 5.5, z: 31.1}
+  m_LocalPosition: {x: 55.4, y: 5.5, z: 96.6}
   m_LocalScale: {x: 30, y: 1, z: 30}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -1918,7 +1922,7 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1, y: 1, z: 1}
+  m_Size: {x: 1, y: 5, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!1001 &2008679512
 PrefabInstance:
