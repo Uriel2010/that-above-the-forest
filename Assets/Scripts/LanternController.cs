@@ -85,4 +85,5 @@ public class LanternController : MonoBehaviour
             textoContador.text = Mathf.CeilToInt(tiempoRestante).ToString();
         }
     }
+    public bool EstaEnModoAlto() { return modoAlto; }
 }
