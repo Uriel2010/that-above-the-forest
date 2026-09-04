@@ -4,10 +4,10 @@ using UnityEngine.AI;
 public class Monstruo : MonoBehaviour
 {
     [Header("Movimiento")]
-    [SerializeField] private float velocidad = 3.5f;
+    [SerializeField] private float velocidad = 5f;
 
-    [Header("Jugador")]
-    [SerializeField] private Transform jugador;
+    [Header("targetMonstruo")]
+    [SerializeField] private Transform targetMonstruo;
 
     [Header("Linterna")]
     [SerializeField] private LanternController linterna;
@@ -18,13 +18,13 @@ public class Monstruo : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = velocidad;
-        if (jugador == null)
+        if (targetMonstruo == null)
         {
-            GameObject objetoJugador = GameObject.FindGameObjectWithTag("Player");
+            GameObject objetotargetMonstruo = GameObject.FindGameObjectWithTag("Player");
 
-            if (objetoJugador != null)
+            if (objetotargetMonstruo != null)
             {
-                jugador = objetoJugador.transform;
+                targetMonstruo = objetotargetMonstruo.transform;
             }
             else
             {
@@ -35,19 +35,6 @@ public class Monstruo : MonoBehaviour
 
     void Update()
     {
-        if (jugador == null)
-            return;
-
-        if (linterna == null && jugador != null)
-        {
-            linterna = jugador.GetComponentInChildren<LanternController>();
-        }
-        {
-            agent.isStopped = true;
-            return;
-        }
-
-        agent.isStopped = false;
-        agent.SetDestination(jugador.position);
+        agent.destination = targetMonstruo.position;
     }
 }
