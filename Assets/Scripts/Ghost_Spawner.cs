@@ -1,3 +1,4 @@
+```csharp
 using UnityEngine;
 using System.Collections;
 
@@ -8,6 +9,9 @@ public class Ghost_Spawner : MonoBehaviour
 
     [Header("Zona de aparición")]
     public Transform spawnArea;
+
+    [Header("Fantasma actual")]
+    public Transform ghostTransform;
 
     [Header("Tiempo de aparición")]
     public float minAppearTime = 5f;
@@ -25,7 +29,7 @@ public class Ghost_Spawner : MonoBehaviour
 
     void Start()
     {
-       Debug.Log("👻 Ghost Spawner iniciado");
+        Debug.Log("👻 Ghost Spawner iniciado");
         StartCoroutine(SpawnGhost());
     }
 
@@ -52,7 +56,14 @@ public class Ghost_Spawner : MonoBehaviour
                     spawnPosition,
                     Quaternion.identity
                 );
-                Debug.Log("👻 ¡FANTASMA APARECIÓ! Posición: " + spawnPosition);
+
+                // Guardar el Transform del fantasma
+                ghostTransform = currentGhost.transform;
+
+                Debug.Log(
+                    "👻 ¡FANTASMA APARECIÓ! Posición: " +
+                    ghostTransform.position
+                );
 
                 // Configurar movimiento
                 GhostAI movement =
@@ -77,7 +88,12 @@ public class Ghost_Spawner : MonoBehaviour
                 if (currentGhost != null)
                 {
                     Destroy(currentGhost);
+
                     currentGhost = null;
+
+                    // Borrar la referencia cuando desaparece
+                    ghostTransform = null;
+
                     Debug.Log("👻 Fantasma desapareció");
                 }
             }
@@ -95,6 +111,7 @@ public class Ghost_Spawner : MonoBehaviour
             Debug.LogWarning(
                 "Ghost Spawner: falta Spawn Area."
             );
+
             return false;
         }
 
@@ -106,6 +123,7 @@ public class Ghost_Spawner : MonoBehaviour
             Debug.LogWarning(
                 "GhostSpawnArea necesita un Box Collider."
             );
+
             return false;
         }
 
@@ -140,8 +158,13 @@ public class Ghost_Spawner : MonoBehaviour
             {
                 if (bounds.Contains(hit.position))
                 {
-                    Debug.Log("👻 Posición encontrada: " + hit.position);
+                    Debug.Log(
+                        "👻 Posición encontrada: " +
+                        hit.position
+                    );
+
                     result = hit.position;
+
                     return true;
                 }
             }
@@ -154,3 +177,4 @@ public class Ghost_Spawner : MonoBehaviour
         return false;
     }
 }
+```
