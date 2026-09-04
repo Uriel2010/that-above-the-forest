@@ -162,7 +162,7 @@ public class Ghost_Spawner : MonoBehaviour
                         "👻 Posición encontrada: " +
                         hit.position
                     );
-
+//nose
                     result = hit.position;
 
                     return true;
