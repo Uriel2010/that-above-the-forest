@@ -211,6 +211,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
+  - {fileID: 1510990405}
   - {fileID: 1783817414}
   - {fileID: 12147526}
   - {fileID: 592401060}
@@ -947,7 +948,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &592401059
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -962,6 +963,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::GhostSpawner
   ghostPrefab: {fileID: 8788634429891339671, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
   spawnArea: {fileID: 1783817414}
+  ghostTransform: {fileID: 0}
   minAppearTime: 5
   maxAppearTime: 15
   minLifeTime: 10
@@ -1121,7 +1123,7 @@ Transform:
   m_GameObject: {fileID: 850514339}
   serializedVersion: 2
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: -0.5}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children:
@@ -1678,7 +1680,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1296620233
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1865,6 +1867,135 @@ MonoBehaviour:
   anguloBajo: 90
   tiempoMaximo: 100
   textoContador: {fileID: 851088820}
+--- !u!1001 &1510990404
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    serializedVersion: 3
+    m_TransformParent: {fileID: 140504753}
+    m_Modifications:
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 33.315193
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: -0.5714798
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 297.43436
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8788634429891339671, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      propertyPath: m_Name
+      value: Fantasma
+      objectReference: {fileID: 0}
+    m_RemovedComponents: []
+    m_RemovedGameObjects: []
+    m_AddedGameObjects: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 8788634429891339671, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1510990407}
+  m_SourcePrefab: {fileID: 100100000, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+--- !u!4 &1510990405 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 4395668806302794801, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+  m_PrefabInstance: {fileID: 1510990404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1510990406 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8788634429891339671, guid: a3917ce11fc9a424db0967e627040c02, type: 3}
+  m_PrefabInstance: {fileID: 1510990404}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1510990407
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1510990406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 92e1d65e508e34021a8b6e5ac4b2af97, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::RecorridoPersonaje
+  etapaActual: 0
+  distanciaDeteccion: 1
+  posicionesParque:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  posicionesTumba:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
 --- !u!1 &1668103349
 GameObject:
   m_ObjectHideFlags: 0
@@ -2279,7 +2410,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4a84f994dc226480bba03c7a8d23e723, type: 3}
       propertyPath: m_LocalPosition.x
-      value: -108.67028
+      value: -105.4
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 4a84f994dc226480bba03c7a8d23e723, type: 3}
       propertyPath: m_LocalPosition.y
@@ -2336,11 +2467,11 @@ SceneRoots:
   - {fileID: 384247770}
   - {fileID: 1668103352}
   - {fileID: 339486826}
-  - {fileID: 327025446}
   - {fileID: 1189368409}
   - {fileID: 273684095}
   - {fileID: 248471811}
   - {fileID: 1770411585}
+  - {fileID: 327025446}
   - {fileID: 140504753}
   - {fileID: 1968452345}
   - {fileID: 1203457654}
