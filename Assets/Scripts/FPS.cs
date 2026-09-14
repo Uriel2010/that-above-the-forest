@@ -20,6 +20,14 @@ public class FPS : MonoBehaviour
 
     private Vector3 move = Vector3.zero;
 
+    [Header("Deteccion del Monstruo")]
+    public targetMonstruo targetMonstruoRef;
+    public float distanciaRaycast = 100f;
+
+    // Guardamos a qué monstruo le estamos "fijando" el target,
+    // para poder liberarlo cuando dejemos de mirarlo.
+    private Monstruo monstruoActual;
+
     void Start ()
     {
         characterController = GetComponent<CharacterController>();
@@ -49,5 +57,42 @@ public class FPS : MonoBehaviour
         move.y -= gravity * Time.deltaTime;
 
         characterController.Move(move * Time.deltaTime);
+
+        DetectarMonstruo();
+    }
+
+    void DetectarMonstruo()
+    {
+        RaycastHit hit;
+        bool golpeoMonstruo = false;
+
+        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distanciaRaycast))
+        {
+            Monstruo monstruo = hit.collider.GetComponentInParent<Monstruo>();
+
+            if (monstruo != null)
+            {
+                golpeoMonstruo = true;
+
+                if (targetMonstruoRef != null)
+                {
+                    targetMonstruoRef.FijarPosicion(monstruo.transform.position);
+                }
+
+                monstruoActual = monstruo;
+            }
+        }
+
+        // Si dejamos de mirar al monstruo, liberamos el target
+        // para que vuelva a seguir al jugador.
+        if (!golpeoMonstruo && monstruoActual != null)
+        {
+            if (targetMonstruoRef != null)
+            {
+                targetMonstruoRef.LiberarPosicion();
+            }
+
+            monstruoActual = null;
+        }
     }
 }
