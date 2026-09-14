@@ -3,7 +3,97 @@ guid: 066d2e965b8694a83a35bef8a7c60290
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Barrotes_
+    second: {fileID: 2100000, guid: 7519d3ca8d5ca4587aa9df7e38b363b1, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Manija
+    second: {fileID: 2100000, guid: 305fed2af238b4fcba58d655e6c63b14, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.002
+    second: {fileID: 2100000, guid: bfb430885dcaa40c587439d5a3a282da, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Material.003
+    second: {fileID: 2100000, guid: 99d9fe564ca1b4d6e88c868c46e2a284, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: Techo
+    second: {fileID: 2100000, guid: bb2043efe77f349c59ebb78534807572, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: TroncosCabana
+    second: {fileID: 2100000, guid: a41b494f6ebf44bbeb152ff4f7b58ea9, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: cortina
+    second: {fileID: 2100000, guid: aff1634556b0c420c9d16973689712cb, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tronco
+    second: {fileID: 2100000, guid: 51632807ef528494d88a59111aeeb30b, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: vidrio
+    second: {fileID: 2100000, guid: 2172b763a4cee49b3933a2ff3ac475f4, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bark02_1K_BaseColor
+    second: {fileID: 2800000, guid: d7b5519fc53b44963926774aa28420f9, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood011_1K-JPG_Color_Dark
+    second: {fileID: 2800000, guid: 34db0a9986f2d42a5a7b4b1017b3fcea, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Wood011_1K-JPG_NormalDX
+    second: {fileID: 2800000, guid: 427676caaf02649eb8703422ff9034e2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: WoodenPlanks01_1K_BaseColor_dark
+    second: {fileID: 2800000, guid: b6161ae5104c64ab49e07e1ed3a1c0f2, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: WoodenPlanks01_1K_Normal
+    second: {fileID: 2800000, guid: f634983d98a854f47ad1c3b00b2d287a, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: log_end
+    second: {fileID: 2800000, guid: 827706de3f2454f4b899c3b285de62f8, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: manta escocesa
+    second: {fileID: 2800000, guid: a2dbb9bc090ba496eb3bdedf739170b0, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: normal map manta escocesa
+    second: {fileID: 2800000, guid: a8a8e496c653f4f458d5fcb70ca4a552, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: smoke_speckled_veneer_diff_1k
+    second: {fileID: 2800000, guid: d34e1beb0c1a84158af1d320c283bffb, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
