@@ -17,8 +17,16 @@ public class LanternController : MonoBehaviour
     // Texto del contador
     [SerializeField] private TMP_Text textoContador;
 
+    [Header("Detección del monstruo")]
+    [SerializeField] private Transform monstruo;             // Transform del monstruo
+    [SerializeField] private Monstruo monstruoScript;         // Script del monstruo (para congelarlo)
+    [SerializeField] private targetMonstruo target;           // Script del objetivo (para reposicionarlo)
+    [Tooltip("Capas que bloquean la luz (paredes, etc). NO incluir la capa del monstruo.")]
+    [SerializeField] private LayerMask capasObstaculo;
+
     private float tiempoRestante;
     private bool modoAlto = false;
+    private bool monstruoDetectado = false;
 
     void Start()
     {
@@ -76,6 +84,59 @@ public class LanternController : MonoBehaviour
 
             ActualizarContador();
         }
+
+        DetectarMonstruo();
+    }
+
+    void DetectarMonstruo()
+    {
+        if (monstruo == null)
+            return;
+
+        bool detectadoAhora = modoAlto && EstaMonstruoEnConoDeLuz();
+
+        if (detectadoAhora && !monstruoDetectado)
+        {
+            monstruoDetectado = true;
+
+            if (target != null)
+                target.SetCongelado(true);
+
+            if (monstruoScript != null)
+                monstruoScript.Congelar();
+        }
+        else if (!detectadoAhora && monstruoDetectado)
+        {
+            monstruoDetectado = false;
+
+            if (target != null)
+                target.SetCongelado(false);
+
+            if (monstruoScript != null)
+                monstruoScript.Descongelar();
+        }
+    }
+
+    bool EstaMonstruoEnConoDeLuz()
+    {
+        Vector3 origen = lantern.transform.position;
+        Vector3 direccionHaciaMonstruo = monstruo.position - origen;
+        float distancia = direccionHaciaMonstruo.magnitude;
+
+        // Fuera del alcance
+        if (distancia > lantern.range)
+            return false;
+
+        // Fuera del cono (ángulo del spot)
+        float anguloHaciaMonstruo = Vector3.Angle(lantern.transform.forward, direccionHaciaMonstruo);
+        if (anguloHaciaMonstruo > lantern.spotAngle / 2f)
+            return false;
+
+        // Línea de visión: algo bloquea el camino
+        if (Physics.Raycast(origen, direccionHaciaMonstruo.normalized, out RaycastHit hit, distancia, capasObstaculo))
+            return false;
+
+        return true;
     }
 
     void ActualizarContador()
@@ -85,4 +146,9 @@ public class LanternController : MonoBehaviour
             textoContador.text = Mathf.CeilToInt(tiempoRestante).ToString();
         }
     }
+<<<<<<< Updated upstream
 }
+=======
+    public bool EstaEnModoAlto() { return modoAlto; }
+}
+>>>>>>> Stashed changes
