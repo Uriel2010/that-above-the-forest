@@ -22,10 +22,9 @@ public class FPS : MonoBehaviour
 
     [Header("Deteccion del Monstruo")]
     public targetMonstruo targetMonstruoRef;
-    public float distanciaRaycast = 100f;
+    public LanternController linterna;
+    public float distanciaRaycast = 20f;
 
-    // Guardamos a qué monstruo le estamos "fijando" el target,
-    // para poder liberarlo cuando dejemos de mirarlo.
     private Monstruo monstruoActual;
 
     void Start ()
@@ -63,10 +62,13 @@ public class FPS : MonoBehaviour
 
     void DetectarMonstruo()
     {
+        // Si la linterna no está en modo alto, no detectamos al monstruo.
+        bool linternaEnModoAlto = linterna != null && linterna.EstaEnModoAlto();
+
         RaycastHit hit;
         bool golpeoMonstruo = false;
 
-        if (Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distanciaRaycast))
+        if (linternaEnModoAlto && Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distanciaRaycast))
         {
             Monstruo monstruo = hit.collider.GetComponentInParent<Monstruo>();
 
@@ -83,8 +85,6 @@ public class FPS : MonoBehaviour
             }
         }
 
-        // Si dejamos de mirar al monstruo, liberamos el target
-        // para que vuelva a seguir al jugador.
         if (!golpeoMonstruo && monstruoActual != null)
         {
             if (targetMonstruoRef != null)
