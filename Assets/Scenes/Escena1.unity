@@ -829,6 +829,11 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 430896339}
   m_Mesh: {fileID: 10209, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!20 &502026366 stripped
+Camera:
+  m_CorrespondingSourceObject: {fileID: 8301348219254906557, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+  m_PrefabInstance: {fileID: 1189368409}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &575493086
 GameObject:
   m_ObjectHideFlags: 0
@@ -1537,6 +1542,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 8301348219256675485, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1428128486}
+    - targetCorrespondingSourceObject: {fileID: 8301348219256675485, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1428128496}
   m_SourcePrefab: {fileID: 100100000, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
 --- !u!1 &1370855323
 GameObject:
@@ -1682,6 +1690,22 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 8301348219256438973, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
   m_PrefabInstance: {fileID: 1189368409}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1428128496
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428128480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 04ec437caef60a34b86d1e2e0da7fb03, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: Assembly-CSharp::DetectorMonstruo
+  cam: {fileID: 502026366}
+  targetMonstruoRef: {fileID: 73629912}
+  linterna: {fileID: 1428128486}
+  distanciaRaycast: 100
 --- !u!1 &1668103349
 GameObject:
   m_ObjectHideFlags: 0
