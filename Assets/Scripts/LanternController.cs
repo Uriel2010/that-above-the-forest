@@ -36,10 +36,8 @@ public class LanternController : MonoBehaviour
         if (lantern == null)
             return;
 
-        // Click derecho
         if (Input.GetMouseButtonDown(1))
         {
-            // Pasar a intensidad alta
             if (!modoAlto && tiempoRestante > 0)
             {
                 modoAlto = true;
