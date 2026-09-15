@@ -36,6 +36,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_CrouchTransitionSpeed = 8f;
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
+		[Header("Posicion inicial")]
+        [SerializeField] private Vector3 m_PosicionInicial;
+        [SerializeField] private Vector3 m_RotacionInicial;
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -58,6 +62,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
+			m_CharacterController.enabled = false;
+            transform.position = m_PosicionInicial;
+            transform.eulerAngles = m_RotacionInicial;
+            m_CharacterController.enabled = true;
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);
