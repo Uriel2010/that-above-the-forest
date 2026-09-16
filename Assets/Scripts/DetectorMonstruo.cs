@@ -18,8 +18,6 @@ public class DetectorMonstruo : MonoBehaviour
 
     void Start()
     {
-        // Si no asignaste una cámara a mano, usa la cámara principal
-        // (la misma que usa FirstPersonController).
         if (cam == null)
         {
             cam = Camera.main;
@@ -33,7 +31,6 @@ public class DetectorMonstruo : MonoBehaviour
 
     void DetectarMonstruo()
     {
-        // Si la linterna no está en modo alto, no detectamos al monstruo.
         bool linternaEnModoAlto = linterna != null && linterna.EstaEnModoAlto();
 
         RaycastHit hit;
@@ -57,8 +54,6 @@ public class DetectorMonstruo : MonoBehaviour
             }
         }
 
-        // Si dejamos de mirar al monstruo, liberamos el target
-        // para que vuelva a seguir al jugador.
         if (!golpeoMonstruo && monstruoActual != null)
         {
             if (targetMonstruoRef != null)

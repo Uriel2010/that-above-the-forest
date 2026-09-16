@@ -24,6 +24,8 @@ public class FPS : MonoBehaviour
     public targetMonstruo targetMonstruoRef;
     public LanternController linterna;
     public float distanciaRaycast = 20f;
+    public float anguloCono = 40f;
+    public bool mostrarRaysEnEscena = true;
 
     private Monstruo monstruoActual;
 
@@ -65,27 +67,47 @@ public class FPS : MonoBehaviour
         // Si la linterna no está en modo alto, no detectamos al monstruo.
         bool linternaEnModoAlto = linterna != null && linterna.EstaEnModoAlto();
 
-        RaycastHit hit;
         bool golpeoMonstruo = false;
+        Monstruo monstruoDetectado = null;
 
-        if (linternaEnModoAlto && Physics.Raycast(cam.transform.position, cam.transform.forward, out hit, distanciaRaycast))
+        if (linternaEnModoAlto)
         {
-            Monstruo monstruo = hit.collider.GetComponentInParent<Monstruo>();
-
-            if (monstruo != null)
+            foreach (Vector3 direccion in ObtenerDireccionesCono())
             {
-                golpeoMonstruo = true;
+                RaycastHit hit;
+                bool lePego = Physics.Raycast(cam.transform.position, direccion, out hit, distanciaRaycast);
 
-                if (targetMonstruoRef != null)
+                if (mostrarRaysEnEscena)
                 {
-                    targetMonstruoRef.FijarPosicion(monstruo.transform.position);
+                    Color colorRay = lePego ? Color.red : Color.yellow;
+                    Debug.DrawRay(cam.transform.position, direccion * distanciaRaycast, colorRay);
                 }
 
-                monstruoActual = monstruo;
+                if (lePego)
+                {
+                    Monstruo monstruo = hit.collider.GetComponentInParent<Monstruo>();
+
+                    if (monstruo != null)
+                    {
+                        golpeoMonstruo = true;
+                        monstruoDetectado = monstruo;
+                        break;
+                    }
+                }
             }
         }
 
-        if (!golpeoMonstruo && monstruoActual != null)
+        if (golpeoMonstruo)
+        {
+            if (targetMonstruoRef != null)
+            {
+                targetMonstruoRef.FijarPosicion(monstruoDetectado.transform.position);
+            }
+
+            monstruoActual = monstruoDetectado;
+        }
+
+        else if (monstruoActual != null)
         {
             if (targetMonstruoRef != null)
             {
@@ -94,5 +116,21 @@ public class FPS : MonoBehaviour
 
             monstruoActual = null;
         }
+    }
+
+    Vector3[] ObtenerDireccionesCono()
+    {
+        Vector3 forward = cam.transform.forward;
+        Vector3 up = cam.transform.up;
+        Vector3 right = cam.transform.right;
+
+        return new Vector3[]
+        {
+            forward,                                           // centro
+            Quaternion.AngleAxis(anguloCono, up) * forward,     // derecha
+            Quaternion.AngleAxis(-anguloCono, up) * forward,    // izquierda
+            Quaternion.AngleAxis(anguloCono, right) * forward,  // abajo
+            Quaternion.AngleAxis(-anguloCono, right) * forward, // arriba
+        };
     }
 }

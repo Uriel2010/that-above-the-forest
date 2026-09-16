@@ -46,7 +46,7 @@ public class LanternController : MonoBehaviour
                 lantern.range = rangoAlto;
                 lantern.spotAngle = anguloAlto;
             }
-            // Pasar a intensidad baja
+
             else if (modoAlto)
             {
                 modoAlto = false;
@@ -57,7 +57,6 @@ public class LanternController : MonoBehaviour
             }
         }
 
-        // Consumir tiempo mientras está en intensidad alta
         if (modoAlto)
         {
             tiempoRestante -= Time.deltaTime;
