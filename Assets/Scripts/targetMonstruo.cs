@@ -2,25 +2,32 @@ using UnityEngine;
 
 public class targetMonstruo : MonoBehaviour
 {
-    [Header("Referencias")]
-    public Transform playerPosition;
-    public Transform monstruo;   
+   public Transform playerPosition;
 
-    private bool congelado = false;
+    private bool posicionFijada = false;
 
     void Start()
     {
-        transform.position = playerPosition.position;
+        
     }
 
     void Update()
     {
-        monstruo = GetComponent<UnityEngine.AI.NavMeshAgent>();
-        transform.position = congelado ? monstruo.position : playerPosition.position;
+        if (!posicionFijada)
+        {
+            transform.position = playerPosition.position;
+        }
     }
 
-    public void SetCongelado(bool valor)
+    // Llamado desde el raycast del jugador cuando detecta al monstruo.
+    public void FijarPosicion(Vector3 posicion)
     {
-        congelado = valor;
+        posicionFijada = true;
+        transform.position = posicion;
+    }
+
+    public void LiberarPosicion()
+    {
+        posicionFijada = false;
     }
 }
