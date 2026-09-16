@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 066d2e965b8694a83a35bef8a7c60290
+guid: 03b7a734faac84ffb93deb591828a0e2
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
@@ -7,93 +7,28 @@ ModelImporter:
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Barrotes_
-    second: {fileID: 2100000, guid: 7519d3ca8d5ca4587aa9df7e38b363b1, type: 2}
+      name: Material
+    second: {fileID: 2100000, guid: 4e814e15c922c4af497bef166e802704, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
-      name: Manija
-    second: {fileID: 2100000, guid: 305fed2af238b4fcba58d655e6c63b14, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Material.002
-    second: {fileID: 2100000, guid: bfb430885dcaa40c587439d5a3a282da, type: 2}
+      name: Material.001
+    second: {fileID: 2100000, guid: 1b1e75523402649d0a2e0486356dccf9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: Material.003
-    second: {fileID: 2100000, guid: 99d9fe564ca1b4d6e88c868c46e2a284, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: Techo
-    second: {fileID: 2100000, guid: bb2043efe77f349c59ebb78534807572, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: TroncosCabana
-    second: {fileID: 2100000, guid: a41b494f6ebf44bbeb152ff4f7b58ea9, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: cortina
-    second: {fileID: 2100000, guid: aff1634556b0c420c9d16973689712cb, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: tronco
-    second: {fileID: 2100000, guid: 51632807ef528494d88a59111aeeb30b, type: 2}
-  - first:
-      type: UnityEngine:Material
-      assembly: UnityEngine.CoreModule
-      name: vidrio
-    second: {fileID: 2100000, guid: 2172b763a4cee49b3933a2ff3ac475f4, type: 2}
+    second: {fileID: 2100000, guid: 50beebdd926714430ab31313041df459, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bark02_1K_BaseColor
-    second: {fileID: 2800000, guid: 2bf2a056b893b49eead158bd1a8d0ff1, type: 3}
+      name: MANTECA1
+    second: {fileID: 2800000, guid: d1339965252d74031af18f869c35c531, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Wood011_1K-JPG_Color_Dark
-    second: {fileID: 2800000, guid: bc13264ebb8a44e7c9277197e2207b1e, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Wood011_1K-JPG_NormalDX
-    second: {fileID: 2800000, guid: ffe70edc5b0904d36ad3d63f7f622a98, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: WoodenPlanks01_1K_BaseColor_dark
-    second: {fileID: 2800000, guid: 19bbb59d2f7c54fa4a6e84d8f50859de, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: WoodenPlanks01_1K_Normal
-    second: {fileID: 2800000, guid: d9a6f14b75400424f9ac32fcccf844f5, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: log_end
-    second: {fileID: 2800000, guid: 6fdb4146f829642f09139fc3a7569f6c, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: manta escocesa
-    second: {fileID: 2800000, guid: 6d33a957833e6464db30908330aaf628, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: normal map manta escocesa
-    second: {fileID: 2800000, guid: a953c1545bae24a6bbe1464ebc987deb, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: smoke_speckled_veneer_diff_1k
-    second: {fileID: 2800000, guid: a8f0b81468ccf4127a26b02a0f87d0f2, type: 3}
+      name: Metal047B_1K-JPG_Color
+    second: {fileID: 2800000, guid: 96b638fd7b430460d90b147626c16f34, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
