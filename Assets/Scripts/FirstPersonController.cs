@@ -36,6 +36,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_CrouchTransitionSpeed = 8f;
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
+        [Header("Deteccion del Monstruo")]
+        [SerializeField] private targetMonstruo targetMonstruoRef;
+        [SerializeField] private LanternController linterna;
+        [SerializeField] private float distanciaRaycast = 20f;
+        [SerializeField] private float anguloCono = 10f;
+        [SerializeField] private bool mostrarRaysEnEscena = true;
+
+        // Guardamos a qué monstruo le estamos "fijando" el target,
+        // para poder liberarlo cuando dejemos de mirarlo.
+        private Monstruo monstruoActual;
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -98,6 +109,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
+
+            DetectarMonstruo();
         }
 
 
@@ -323,6 +336,82 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+        }
+
+
+        private void DetectarMonstruo()
+        {
+            // Si la linterna no está en modo alto, no detectamos al monstruo.
+            bool linternaEnModoAlto = linterna != null && linterna.EstaEnModoAlto();
+
+            bool golpeoMonstruo = false;
+            Monstruo monstruoDetectado = null;
+
+            if (linternaEnModoAlto && m_Camera != null)
+            {
+                foreach (Vector3 direccion in ObtenerDireccionesCono())
+                {
+                    RaycastHit hit;
+                    bool lePego = Physics.Raycast(m_Camera.transform.position, direccion, out hit, distanciaRaycast);
+
+                    if (mostrarRaysEnEscena)
+                    {
+                        Color colorRay = lePego ? Color.red : Color.yellow;
+                        Debug.DrawRay(m_Camera.transform.position, direccion * distanciaRaycast, colorRay);
+                    }
+
+                    if (lePego)
+                    {
+                        Monstruo monstruo = hit.collider.GetComponentInParent<Monstruo>();
+
+                        if (monstruo != null)
+                        {
+                            golpeoMonstruo = true;
+                            monstruoDetectado = monstruo;
+                            break; // con que un rayo del cono le pegue alcanza
+                        }
+                    }
+                }
+            }
+
+            if (golpeoMonstruo)
+            {
+                if (targetMonstruoRef != null)
+                {
+                    targetMonstruoRef.FijarPosicion(monstruoDetectado.transform.position);
+                }
+
+                monstruoActual = monstruoDetectado;
+            }
+            // Si dejamos de mirar al monstruo, liberamos el target
+            // para que vuelva a seguir al jugador.
+            else if (monstruoActual != null)
+            {
+                if (targetMonstruoRef != null)
+                {
+                    targetMonstruoRef.LiberarPosicion();
+                }
+
+                monstruoActual = null;
+            }
+        }
+
+        // Genera las 5 direcciones del cono: el rayo central (forward de la cámara)
+        // más 4 rayos inclinados anguloCono grados hacia arriba, abajo, izquierda y derecha.
+        private Vector3[] ObtenerDireccionesCono()
+        {
+            Vector3 forward = m_Camera.transform.forward;
+            Vector3 up = m_Camera.transform.up;
+            Vector3 right = m_Camera.transform.right;
+
+            return new Vector3[]
+            {
+                forward,                                           // centro
+                Quaternion.AngleAxis(anguloCono, up) * forward,     // derecha
+                Quaternion.AngleAxis(-anguloCono, up) * forward,    // izquierda
+                Quaternion.AngleAxis(anguloCono, right) * forward,  // abajo
+                Quaternion.AngleAxis(-anguloCono, right) * forward, // arriba
+            };
         }
     }
 }
