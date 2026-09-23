@@ -1,6 +1,6 @@
 using UnityEngine;
 
-public class RecorridoPersonaje : MonoBehaviour
+public class FantasmaMovement : MonoBehaviour
 {
     public enum Etapa { Parque, Tumba }
     public Etapa etapaActual = Etapa.Parque;
@@ -41,7 +41,20 @@ public class RecorridoPersonaje : MonoBehaviour
 
     void Start()
     {
-        GetComponent<SphereCollider>().radius = distanciaDeteccion;
+
+
+    GetComponent<SphereCollider>().radius = distanciaDeteccion;
+
+    Collider[] enZona = Physics.OverlapSphere(transform.position, distanciaDeteccion);
+    foreach (Collider c in enZona)
+    {
+        if (c.CompareTag("Player"))
+        {
+            AvanzarSiguiente();
+            break;
+        }
+    }
+
     }
 
     void OnTriggerEnter(Collider other)
@@ -74,5 +87,7 @@ public class RecorridoPersonaje : MonoBehaviour
 
         Transform[] posiciones = etapaActual == Etapa.Parque ? posicionesParque : posicionesTumba;
         transform.position = posiciones[estoy].position;
+
+        Debug.Log($"Zona: {etapaActual} - Nodo {estoy + 1} - Posición: {transform.position}");
     }
 }
