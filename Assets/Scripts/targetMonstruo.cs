@@ -19,6 +19,7 @@ public class targetMonstruo : MonoBehaviour
         }
     }
 
+    // Llamado desde el raycast del jugador cuando detecta al monstruo.
     public void FijarPosicion(Vector3 posicion)
     {
         posicionFijada = true;

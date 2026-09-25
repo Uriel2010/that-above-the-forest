@@ -83,6 +83,7 @@ public class LanternController : MonoBehaviour
     }
     public bool EstaEnModoAlto() { return modoAlto; }
 
+
     void OnDrawGizmos()
     {
         // Set the color with custom alpha
@@ -92,4 +93,5 @@ public class LanternController : MonoBehaviour
         Gizmos.DrawLine(transform.position, transform.position + transform.forward * rangoAlto);
 
     }
+
 }
