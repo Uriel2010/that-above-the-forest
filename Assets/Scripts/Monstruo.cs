@@ -13,6 +13,7 @@ public class Monstruo : MonoBehaviour
     [SerializeField] private LanternController linterna;
 
     private NavMeshAgent agent;
+    private bool congelado = false;
 
     void Start()
     {
@@ -35,6 +36,25 @@ public class Monstruo : MonoBehaviour
 
     void Update()
     {
+        if (congelado)
+            return;
+
+        if (targetMonstruo == null)
+            return;
+
         agent.destination = targetMonstruo.position;
+    }
+
+    // Llamado por LanternController cuando la linterna en modo alto lo atrapa
+    public void Congelar()
+    {
+        congelado = true;
+        agent.isStopped = true;
+    }
+
+    public void Descongelar()
+    {
+        congelado = false;
+        agent.isStopped = false;
     }
 }

@@ -43,6 +43,11 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float anguloCono = 10f;
         [SerializeField] private bool mostrarRaysEnEscena = true;
 
+        [Header("Posicion inicial")]
+        [SerializeField] private bool m_UsarPosicionInicial = true;
+        [SerializeField] private Vector3 m_PosicionInicial;
+        [SerializeField] private Vector3 m_RotacionInicial;
+
         // Guardamos a qué monstruo le estamos "fijando" el target,
         // para poder liberarlo cuando dejemos de mirarlo.
         private Monstruo monstruoActual;
@@ -69,6 +74,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
+            if (m_UsarPosicionInicial)
+            {
+             m_CharacterController.enabled = false;
+             transform.position = m_PosicionInicial;
+             transform.eulerAngles = m_RotacionInicial;
+             m_CharacterController.enabled = true;
+            }
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);
