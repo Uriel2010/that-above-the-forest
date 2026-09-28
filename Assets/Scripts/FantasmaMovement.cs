@@ -7,6 +7,9 @@ public class FantasmaMovement : MonoBehaviour
     int estoy = 0;
 
     public float distanciaDeteccion = 1f;
+    public Transform fps;
+    public ParticleSystem particulas; // efecto al teletransportarse
+    public ParticleSystem camino;     // partículas fantasma -> fps
 
     public Transform[] posicionesParque; // 26 elementos, en orden
     public Transform[] posicionesTumba;  // 16 elementos, en orden
@@ -54,7 +57,19 @@ public class FantasmaMovement : MonoBehaviour
             break;
         }
     }
+    camino.Play();
 
+    }
+
+        void Update()
+    {
+        camino.transform.position = transform.position;
+        camino.transform.LookAt(fps);
+
+        float distancia = Vector3.Distance(transform.position, fps.position);
+        var main = camino.main;
+        main.startLifetime = 1f;
+        main.startSpeed = distancia; // llega hasta el fps en 1 segundo
     }
 
     void OnTriggerEnter(Collider other)
@@ -67,6 +82,7 @@ public class FantasmaMovement : MonoBehaviour
     {
         int[][] tabla = etapaActual == Etapa.Parque ? puedoIrParque : puedoIrTumba;
         int[] opciones = tabla[estoy];
+        particulas.Play(); // al desaparecer
 
         if (opciones.Length == 0)
         {
