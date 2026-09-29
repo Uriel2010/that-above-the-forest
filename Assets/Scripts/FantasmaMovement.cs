@@ -68,7 +68,7 @@ public class FantasmaMovement : MonoBehaviour
 
         float distancia = Vector3.Distance(transform.position, fps.position);
         var main = camino.main;
-        main.startLifetime = 1f;
+        main.startLifetime = 3f;
         main.startSpeed = distancia; // llega hasta el fps en 1 segundo
     }
 
