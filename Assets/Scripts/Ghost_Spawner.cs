@@ -1,4 +1,4 @@
-
+/* 
 using UnityEngine;
 using System.Collections;
 
@@ -178,3 +178,4 @@ public class Ghost_Spawner : MonoBehaviour
     }
 }
 
+ */
