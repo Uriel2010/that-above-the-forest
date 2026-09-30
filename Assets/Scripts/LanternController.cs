@@ -4,7 +4,6 @@ using TMPro;
 public class LanternController : MonoBehaviour
 {
     [SerializeField] private Light lantern;
-
     [SerializeField] private float intensidadAlta = 6f;
     [SerializeField] private float intensidadBaja = 3f;
     [SerializeField] private float rangoAlto = 20f;
@@ -46,7 +45,7 @@ public class LanternController : MonoBehaviour
                 lantern.range = rangoAlto;
                 lantern.spotAngle = anguloAlto;
             }
-            // Pasar a intensidad baja
+
             else if (modoAlto)
             {
                 modoAlto = false;
@@ -57,7 +56,6 @@ public class LanternController : MonoBehaviour
             }
         }
 
-        // Consumir tiempo mientras está en intensidad alta
         if (modoAlto)
         {
             tiempoRestante -= Time.deltaTime;
@@ -84,4 +82,16 @@ public class LanternController : MonoBehaviour
         }
     }
     public bool EstaEnModoAlto() { return modoAlto; }
+
+
+    void OnDrawGizmos()
+    {
+        // Set the color with custom alpha
+        Gizmos.color = Color.red;
+
+        // Draw the line
+        Gizmos.DrawLine(transform.position, transform.position + transform.forward * rangoAlto);
+
+    }
+
 }
