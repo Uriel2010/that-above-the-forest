@@ -4,7 +4,7 @@ public class FantasmaMovement : MonoBehaviour
 {
     public enum Etapa { Parque, Tumba }
     public Etapa etapaActual = Etapa.Parque;
-    int estoy = 0;
+    int posicionActual = 0;
 
     public float distanciaDeteccion = 1f;
     public Transform fps;
@@ -81,7 +81,7 @@ public class FantasmaMovement : MonoBehaviour
     void AvanzarSiguiente()
     {
         int[][] tabla = etapaActual == Etapa.Parque ? puedoIrParque : puedoIrTumba;
-        int[] opciones = tabla[estoy];
+        int[] opciones = tabla[posicionActual];
         particulas.Play(); // al desaparecer
 
         if (opciones.Length == 0)
@@ -89,7 +89,7 @@ public class FantasmaMovement : MonoBehaviour
             if (etapaActual == Etapa.Parque)
             {
                 etapaActual = Etapa.Tumba;
-                estoy = 0;
+                posicionActual = 0;
             }
             else
             {
@@ -98,12 +98,12 @@ public class FantasmaMovement : MonoBehaviour
         }
         else
         {
-            estoy = opciones[Random.Range(0, opciones.Length)];
+            posicionActual = opciones[Random.Range(0, opciones.Length)];
         }
 
         Transform[] posiciones = etapaActual == Etapa.Parque ? posicionesParque : posicionesTumba;
-        transform.position = posiciones[estoy].position;
+        transform.position = posiciones[posicionActual].position;
 
-        Debug.Log($"Zona: {etapaActual} - Nodo {estoy + 1} - Posición: {transform.position}");
+        Debug.Log($"Zona: {etapaActual} - Nodo {posicionActual + 1} - Posición: {transform.position}");
     }
 }
