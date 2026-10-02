@@ -1468,6 +1468,22 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      propertyPath: linterna
+      value: 
+      objectReference: {fileID: 1428128486}
+    - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      propertyPath: monstruo
+      value: 
+      objectReference: {fileID: 753837276}
+    - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      propertyPath: targetMonstruoRef
+      value: 
+      objectReference: {fileID: 73629912}
+    - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      propertyPath: semiAnguloDeteccion
+      value: 40
+      objectReference: {fileID: 0}
     - target: {fileID: 8301348219254906557, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       propertyPath: m_BackGroundColor.b
       value: 0

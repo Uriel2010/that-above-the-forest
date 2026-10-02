@@ -37,15 +37,17 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
         [Header("Deteccion del Monstruo")]
+        [SerializeField] private Monstruo monstruo;              // referencia directa al monstruo de la escena
         [SerializeField] private targetMonstruo targetMonstruoRef;
         [SerializeField] private LanternController linterna;
-        [SerializeField] private float distanciaRaycast = 20f;
-        [SerializeField] private float anguloCono = 10f;
-        [SerializeField] private bool mostrarRaysEnEscena = true;
+        [SerializeField] private float distanciaDeteccion = 20f;
+        [SerializeField] private float semiAnguloDeteccion = 20f; // mitad del ángulo del cono de luz, en grados
+        [SerializeField] private float alturaPuntoObjetivo = 1f;  // altura (desde los pies) del punto del monstruo que se chequea
+        [SerializeField] private LayerMask capaObstaculos = ~0;   // qué capas pueden tapar la línea de visión
+        [SerializeField] private bool mostrarDebug = true;
 
-        // Guardamos a qué monstruo le estamos "fijando" el target,
-        // para poder liberarlo cuando dejemos de mirarlo.
-        private Monstruo monstruoActual;
+        // Si ya lo tenía detectado en el frame anterior, para saber cuándo liberar el target.
+        private bool monstruoDetectado;
 
         private Camera m_Camera;
         private bool m_Jump;
@@ -344,74 +346,74 @@ namespace UnityStandardAssets.Characters.FirstPerson
             // Si la linterna no está en modo alto, no detectamos al monstruo.
             bool linternaEnModoAlto = linterna != null && linterna.EstaEnModoAlto();
 
-            bool golpeoMonstruo = false;
-            Monstruo monstruoDetectado = null;
+            bool detectadoAhora = linternaEnModoAlto && monstruo != null && m_Camera != null
+                                   && EstaEnConoDeVision();
 
-            if (linternaEnModoAlto && m_Camera != null)
-            {
-                foreach (Vector3 direccion in ObtenerDireccionesCono())
-                {
-                    RaycastHit hit;
-                    bool lePego = Physics.Raycast(m_Camera.transform.position, direccion, out hit, distanciaRaycast);
-
-                    if (mostrarRaysEnEscena)
-                    {
-                        Color colorRay = lePego ? Color.red : Color.yellow;
-                        Debug.DrawRay(m_Camera.transform.position, direccion * distanciaRaycast, colorRay);
-                    }
-
-                    if (lePego)
-                    {
-                        Monstruo monstruo = hit.collider.GetComponentInParent<Monstruo>();
-
-                        if (monstruo != null)
-                        {
-                            golpeoMonstruo = true;
-                            monstruoDetectado = monstruo;
-                            break; // con que un rayo del cono le pegue alcanza
-                        }
-                    }
-                }
-            }
-
-            if (golpeoMonstruo)
+            if (detectadoAhora)
             {
                 if (targetMonstruoRef != null)
                 {
-                    targetMonstruoRef.FijarPosicion(monstruoDetectado.transform.position);
+                    targetMonstruoRef.FijarPosicion(monstruo.transform.position);
                 }
-
-                monstruoActual = monstruoDetectado;
             }
             // Si dejamos de mirar al monstruo, liberamos el target
             // para que vuelva a seguir al jugador.
-            else if (monstruoActual != null)
+            else if (monstruoDetectado)
             {
                 if (targetMonstruoRef != null)
                 {
                     targetMonstruoRef.LiberarPosicion();
                 }
-
-                monstruoActual = null;
             }
+
+            monstruoDetectado = detectadoAhora;
         }
 
-        // Genera las 5 direcciones del cono: el rayo central (forward de la cámara)
-        // más 4 rayos inclinados anguloCono grados hacia arriba, abajo, izquierda y derecha.
-        private Vector3[] ObtenerDireccionesCono()
+        // Chequeo estándar de "cono de visión": distancia -> ángulo -> línea de visión.
+        // Devuelve true solo si el monstruo está cerca, dentro del cono de luz,
+        // y no hay nada (pared, objeto) tapando el camino entre la cámara y él.
+        private bool EstaEnConoDeVision()
         {
-            Vector3 forward = m_Camera.transform.forward;
-            Vector3 up = m_Camera.transform.up;
-            Vector3 right = m_Camera.transform.right;
+            Vector3 origen = m_Camera.transform.position;
+            Vector3 puntoObjetivo = monstruo.transform.position + Vector3.up * alturaPuntoObjetivo;
 
-            return new Vector3[]
+            Vector3 direccionAlObjetivo = puntoObjetivo - origen;
+            float distancia = direccionAlObjetivo.magnitude;
+
+            // 1) Distancia: lo más barato de chequear primero, para cortar rápido.
+            if (distancia > distanciaDeteccion)
             {
-                forward,                                           // centro
-                Quaternion.AngleAxis(anguloCono, up) * forward,     // derecha
-                Quaternion.AngleAxis(-anguloCono, up) * forward,    // izquierda
-                Quaternion.AngleAxis(anguloCono, right) * forward,  // abajo
-                Quaternion.AngleAxis(-anguloCono, right) * forward, // arriba
-            };
+                return false;
+            }
+
+            // 2) Ángulo: ¿está dentro del cono de luz?
+            float angulo = Vector3.Angle(m_Camera.transform.forward, direccionAlObjetivo);
+            if (angulo > semiAnguloDeteccion)
+            {
+                return false;
+            }
+
+            // 3) Línea de visión: un único raycast hacia el monstruo. Si algo que no
+            // sea el propio monstruo lo tapa en el medio, no cuenta como detectado.
+            RaycastHit hit;
+            bool huboObstaculo = Physics.Raycast(origen, direccionAlObjetivo.normalized, out hit, distancia, capaObstaculos);
+
+            if (huboObstaculo && hit.collider.GetComponentInParent<Monstruo>() != monstruo)
+            {
+                if (mostrarDebug)
+                {
+                    Debug.DrawLine(origen, hit.point, Color.yellow); // algo lo está tapando
+                }
+
+                return false;
+            }
+
+            if (mostrarDebug)
+            {
+                Debug.DrawLine(origen, puntoObjetivo, Color.red); // detectado
+            }
+
+            return true;
         }
     }
 }
