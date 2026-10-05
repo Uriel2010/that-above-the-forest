@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: 239dabb6eda55204885b54acc30f3b71
+guid: 17a6520370c3d4d10b3b2afe7f53b2c8
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
@@ -8,32 +8,32 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: hoja
-    second: {fileID: 2100000, guid: 29079b15c3ff44ff2b79201e48574869, type: 2}
+    second: {fileID: 2100000, guid: 8c06d16e2976345a8b984a5b878b48ea, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: tronco
-    second: {fileID: 2100000, guid: 41c37e444bcc1442ba4e3ccc720ec2ae, type: 2}
+    second: {fileID: 2100000, guid: b2fd6695184be4c80b13e12e96512cf8, type: 2}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bark02_1K_BaseColor
-    second: {fileID: 2800000, guid: 50057cd45f94e4cb697adc0c3c94acb3, type: 3}
+      name: Bark09_1K_BaseColor
+    second: {fileID: 2800000, guid: 3bc2737f2879846878973833532e2ff5, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bark02_1K_Normal
-    second: {fileID: 2800000, guid: da73a7be00a16483fbc078f6ac74a48b, type: 3}
+      name: Bark09_1K_Normal
+    second: {fileID: 2800000, guid: 03398960747bb4a639fae28d8ded6669, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: Bark02_1K_Roughness
-    second: {fileID: 2800000, guid: d224c04854d1544b19983b1819aabd52, type: 3}
+      name: Bark09_1K_Roughness
+    second: {fileID: 2800000, guid: b4cde333412ec4071bafa9a714412414, type: 3}
   - first:
       type: UnityEngine:Texture2D
       assembly: UnityEngine.CoreModule
-      name: pngegg (1)
-    second: {fileID: 2800000, guid: c9907c635915849839de5c79d1e80a3e, type: 3}
+      name: Branches0014_1_350-removebg-preview
+    second: {fileID: 2800000, guid: 08e988cce3e31475b993dc7bce1316e2, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0

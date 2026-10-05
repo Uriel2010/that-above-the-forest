@@ -4033,7 +4033,7 @@ Transform:
   m_GameObject: {fileID: 1561122449}
   serializedVersion: 2
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 1.095, z: 0}
+  m_LocalPosition: {x: 0, y: -1.39, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
   m_Children: []
@@ -14996,6 +14996,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::RecorridoPersonaje
   etapaActual: 0
   distanciaDeteccion: 1
+  velocidadCamino: 3
+  duracionParticula: 3
   fps: {fileID: 1428128487}
   particulas: {fileID: 1942861930}
   camino: {fileID: 1970484727}
