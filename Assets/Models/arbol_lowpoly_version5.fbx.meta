@@ -3,7 +3,37 @@ guid: f8545c8ef38b5412fb4f16353466ef25
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: hoja
+    second: {fileID: 2100000, guid: 89d891386dcec4075b3a48cb39d35c80, type: 2}
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: tronco
+    second: {fileID: 2100000, guid: 7cf3b43c94a734510be3fb169fa90dc2, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bark02_1K_BaseColor
+    second: {fileID: 2800000, guid: 3fbfa13e16fba4032ba0b13d03a446f6, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bark02_1K_Normal
+    second: {fileID: 2800000, guid: 1f8b44af705854220a2ffda71104a4ee, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: Bark02_1K_Roughness
+    second: {fileID: 2800000, guid: 50c684828af6a42f89a7fbbdcfc5f9d1, type: 3}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: pngegg (1)
+    second: {fileID: 2800000, guid: 990ec939cf6e84a1e9868a4b67a4071c, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
