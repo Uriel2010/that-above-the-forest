@@ -6,7 +6,10 @@ public class FantasmaMovement : MonoBehaviour
     public Etapa etapaActual = Etapa.Parque;
     int posicionActual = 0;
 
+    
     public float distanciaDeteccion = 1f;
+    public float velocidadCamino = 3f; // divide la distancia, más alto = más lento
+    public float duracionParticula = 3f;
     public Transform fps;
     public ParticleSystem particulas; // efecto al teletransportarse
     public ParticleSystem camino;     // partículas fantasma -> fps
