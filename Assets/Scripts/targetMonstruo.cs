@@ -11,6 +11,7 @@ public class targetMonstruo : MonoBehaviour
     public float radioOcultamiento = 35f;       // radio alrededor del jugador donde empieza a esconderse
     public float distanciaPersecucion = 10f;    // a esta distancia o menos persigue directo
     public float distanciaLlegada = 1f;         // distancia para considerar que el monstruo "llegó"
+    public float tiempoGracia = 5f;             // segundos que sigue escondiéndose después de perder la luz
 
     [Header("Árboles (solo lectura, para debug)")]
     public Transform arbolCercaMonstruo;
@@ -23,8 +24,10 @@ public class targetMonstruo : MonoBehaviour
 
     private bool posicionFijada = false;        // true = monstruo iluminado
     private Vector3 ultimaPosMonstruo;
+    private float tiempoGraciaRestante = 0f;
 
     private Transform[] arboles;
+    private Transform ultimoArbolLog;
 
     void Start()
     {
@@ -48,18 +51,24 @@ public class targetMonstruo : MonoBehaviour
             return;
         }
 
-        // 1) Cerca del jugador: persecución directa
-        if (DistHoriz(monstruo.transform.position, playerPosition.position) <= distanciaPersecucion)
+        // Mientras está iluminado el contador se mantiene lleno; al perder la luz empieza a bajar
+        if (posicionFijada)
+            tiempoGraciaRestante = tiempoGracia;
+        else if (tiempoGraciaRestante > 0f)
+            tiempoGraciaRestante -= Time.deltaTime;
+
+        // 1) Iluminado (o dentro del tiempo de gracia): se esconde detrás del árbol más cercano a él
+        if (posicionFijada || tiempoGraciaRestante > 0f)
         {
-            transform.position = playerPosition.position;
+            ActualizarIluminado();
             rutaActiva = false;
             return;
         }
 
-        // 2) Iluminado: se esconde detrás del árbol más cercano a él
-        if (posicionFijada)
+        // 2) No iluminado y cerca del jugador: persecución directa
+        if (DistHoriz(monstruo.transform.position, playerPosition.position) <= distanciaPersecucion)
         {
-            ActualizarIluminado();
+            transform.position = playerPosition.position;
             rutaActiva = false;
             return;
         }
@@ -83,11 +92,13 @@ public class targetMonstruo : MonoBehaviour
     // ---------- Monstruo iluminado ----------
     void ActualizarIluminado()
     {
-        arbolCercaMonstruo = ArbolMasCercanoA(ultimaPosMonstruo);
+        // Se usa la posición actual del monstruo para que el árbol se actualice también durante la gracia
+        Vector3 posMonstruo = monstruo.transform.position;
+        arbolCercaMonstruo = ArbolMasCercanoA(posMonstruo);
 
         if (arbolCercaMonstruo == null)
         {
-            transform.position = ultimaPosMonstruo; // sin árboles: se queda quieto
+            transform.position = posMonstruo; // sin árboles: se queda quieto
             return;
         }
 
@@ -108,11 +119,14 @@ public class targetMonstruo : MonoBehaviour
 
         if (fase == Fase.Lejos)
         {
-            transform.position = PosicionDetras(arbolLejosPlayer);
+            IrA(arbolLejosPlayer);
 
             if (Llego())
             {
+                // Se recalcula ahora, con la posición actual del jugador (el que se calculó
+                // al iniciar la ruta puede haber quedado obsoleto si el jugador se movió).
                 fase = Fase.Siguiente;
+                arbolSiguiente = SiguienteMasCercanoAlJugador(arbolLejosPlayer);
                 IrA(arbolSiguiente);
             }
         }
@@ -139,7 +153,19 @@ public class targetMonstruo : MonoBehaviour
     // Si no hay árbol siguiente, va directo al jugador.
     void IrA(Transform arbol)
     {
-        transform.position = arbol != null ? PosicionDetras(arbol) : playerPosition.position;
+        if (arbol == null)
+        {
+            Debug.LogWarning("targetMonstruo: no quedan árboles más cerca del jugador, el monstruo va directo hacia él.");
+            transform.position = playerPosition.position;
+            return;
+        }
+
+        if (arbol != ultimoArbolLog)
+        {
+            ultimoArbolLog = arbol;
+            Debug.Log($"targetMonstruo: nuevo destino -> {arbol.name} | dist. al jugador: {DistHoriz(arbol.position, playerPosition.position):F1} | dist. del monstruo al jugador: {DistHoriz(monstruo.transform.position, playerPosition.position):F1}");
+        }
+        transform.position = PosicionDetras(arbol);
     }
 
     bool Llego()
