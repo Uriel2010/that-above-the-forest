@@ -1,5 +1,5 @@
 fileFormatVersion: 2
-guid: b97411ed7794c4f17b80ffd7c035885b
+guid: 239dabb6eda55204885b54acc30f3b71
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
@@ -8,32 +8,12 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: hoja
-    second: {fileID: 2100000, guid: 61e4b4c7cb790494b974b17c508ae111, type: 2}
+    second: {fileID: 2100000, guid: d8def6863c5bc7a429d93a48222133d9, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: tronco
-    second: {fileID: 2100000, guid: 08d464387c6184c718bd2bca52a1eb6a, type: 2}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Bark02_1K_BaseColor
-    second: {fileID: 2800000, guid: 80c0d4f7433444bfeaa2196be6cd5c3e, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Bark02_1K_Normal
-    second: {fileID: 2800000, guid: 677e28aac9a5f403e8c62c3b02a3a9bf, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: Bark02_1K_Roughness
-    second: {fileID: 2800000, guid: 650410c0d76114628b7ec548cbcd1952, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: pngegg
-    second: {fileID: 2800000, guid: a3b002e7ae4674de59daf3e780b4cbd6, type: 3}
+    second: {fileID: 2100000, guid: e79df3a9b11d78440b3b54736b38d72b, type: 2}
   materials:
     materialImportMode: 2
     materialName: 0
