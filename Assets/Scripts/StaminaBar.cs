@@ -1,5 +1,6 @@
 using UnityEngine;
 using UnityEngineUI;
+using System.Collections; 
 
 public class StaminaBar : MonoBehaviour
 {
@@ -31,6 +32,11 @@ public class StaminaBar : MonoBehaviour
         {
             Debug.Log ("No se puede correr");
         }
+    }
+
+    private IENumerator RegenStamina ()
+    {
+    
     }
     }
 
