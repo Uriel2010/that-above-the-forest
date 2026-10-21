@@ -13,7 +13,7 @@ public class Player : MonoBehaviour
     {
         if (Input.GetKeyDown (KeyCode.LeftShift) )
         {
-        
+        staminaBar.instance.UseStamina (15);
         }
         
     }
