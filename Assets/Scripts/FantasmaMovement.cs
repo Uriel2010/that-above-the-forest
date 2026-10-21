@@ -75,7 +75,7 @@ public class FantasmaMovement : MonoBehaviour
         main.startLifetime = duracionParticula;
         main.startSpeed = velocidad;
 
-        
+        Debug.Log("Velocidad: " + velocidad);
     }
     void OnTriggerEnter(Collider other)
     {
