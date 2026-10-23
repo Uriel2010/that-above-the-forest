@@ -36,6 +36,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_CrouchTransitionSpeed = 8f;
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
+        [Header("Animacion")]
+        [SerializeField] private Animator animator;
+        [SerializeField] private string nombreBool = "IsRunning";
+
         [Header("Deteccion del Monstruo")]
         [SerializeField] private Monstruo monstruo;              // referencia directa al monstruo de la escena
         [SerializeField] private targetMonstruo targetMonstruoRef;
@@ -97,6 +101,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             HandleCrouch();
+            if (animator != null)   // nuevo
+            {
+             animator.SetBool(nombreBool, Input.GetKey(KeyCode.LeftShift));
+             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
