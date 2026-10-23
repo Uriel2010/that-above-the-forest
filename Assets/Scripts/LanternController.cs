@@ -83,4 +83,8 @@ public class LanternController : MonoBehaviour
     }
     public bool EstaEnModoAlto() { return modoAlto; }
 
+    // Datos actuales de la luz, para que otros scripts puedan calcular el cono de iluminación
+    public float RangoActual() { return lantern != null ? lantern.range : 0f; }
+    public float AnguloActual() { return lantern != null ? lantern.spotAngle : 0f; }
+
 }
