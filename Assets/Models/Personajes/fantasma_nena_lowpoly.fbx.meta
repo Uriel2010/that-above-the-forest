@@ -1,68 +1,8 @@
 fileFormatVersion: 2
 guid: 1c81ffa97be1c44b2aba9f6aa626c68e
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: brazos
-    100002: Cone
-    100004: Cone.001
-    100006: Cube.001
-    100008: Cube.004
-    100010: Cube.005
-    100012: cuepo
-    100014: Cylinder
-    100016: Cylinder.002
-    100018: //RootNode
-    100020: orejas
-    100022: pelo
-    400000: brazos
-    400002: Cone
-    400004: Cone.001
-    400006: Cube.001
-    400008: Cube.004
-    400010: Cube.005
-    400012: cuepo
-    400014: Cylinder
-    400016: Cylinder.002
-    400018: //RootNode
-    400020: orejas
-    400022: pelo
-    2100000: No Name
-    2300000: brazos
-    2300002: Cone
-    2300004: Cone.001
-    2300006: Cube.001
-    2300008: Cube.004
-    2300010: Cube.005
-    2300012: cuepo
-    2300014: Cylinder
-    2300016: Cylinder.002
-    2300018: orejas
-    2300020: pelo
-    3300000: brazos
-    3300002: Cone
-    3300004: Cone.001
-    3300006: Cube.001
-    3300008: Cube.004
-    3300010: Cube.005
-    3300012: cuepo
-    3300014: Cylinder
-    3300016: Cylinder.002
-    3300018: orejas
-    3300020: pelo
-    4300000: Cone
-    4300002: Cone.001
-    4300004: Cube.001
-    4300006: Cube.004
-    4300008: Cube.005
-    4300010: Cylinder
-    4300012: Cylinder.002
-    4300014: brazos
-    4300016: cuepo
-    4300018: orejas
-    4300020: pelo
-    9500000: //RootNode
-    2186277476908879412: ImportLogs
+  serializedVersion: 24501
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -85,18 +25,18 @@ ModelImporter:
       name: vestido
     second: {fileID: 2800000, guid: a68ff178bb00846bf817c43d6967319d, type: 3}
   materials:
-    importMaterials: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
+    searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -118,25 +58,41 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    importUVs: -1
+    importVertexColors: 1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -145,10 +101,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+    calculateBlendshapeNormalsDeltaFromImportedNormals: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -158,13 +115,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 

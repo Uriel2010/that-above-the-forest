@@ -1,93 +1,8 @@
 fileFormatVersion: 2
 guid: 41cf622e831cbb54a99d70927e8cb6c5
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: //RootNode
-    100002: Cube.001
-    100004: Cube.002
-    100006: Cube.004
-    100008: Cube.005
-    100010: Cube.006
-    100012: Cube.007
-    100014: Cylinder.001
-    100016: Cylinder.003
-    100018: Cylinder.007
-    100020: Cylinder.008
-    100022: Plane
-    100024: Puerta.001
-    100026: Puerta.002
-    100028: tronco
-    100030: Ventana
-    100032: Ventana.001
-    400000: //RootNode
-    400002: Cube.001
-    400004: Cube.002
-    400006: Cube.004
-    400008: Cube.005
-    400010: Cube.006
-    400012: Cube.007
-    400014: Cylinder.001
-    400016: Cylinder.003
-    400018: Cylinder.007
-    400020: Cylinder.008
-    400022: Plane
-    400024: Puerta.001
-    400026: Puerta.002
-    400028: tronco
-    400030: Ventana
-    400032: Ventana.001
-    2300000: Cube.001
-    2300002: Cube.002
-    2300004: Cube.004
-    2300006: Cube.005
-    2300008: Cube.006
-    2300010: Cube.007
-    2300012: Cylinder.001
-    2300014: Cylinder.003
-    2300016: Cylinder.007
-    2300018: Cylinder.008
-    2300020: Plane
-    2300022: Puerta.001
-    2300024: Puerta.002
-    2300026: tronco
-    2300028: Ventana
-    2300030: Ventana.001
-    3300000: Cube.001
-    3300002: Cube.002
-    3300004: Cube.004
-    3300006: Cube.005
-    3300008: Cube.006
-    3300010: Cube.007
-    3300012: Cylinder.001
-    3300014: Cylinder.003
-    3300016: Cylinder.007
-    3300018: Cylinder.008
-    3300020: Plane
-    3300022: Puerta.001
-    3300024: Puerta.002
-    3300026: tronco
-    3300028: Ventana
-    3300030: Ventana.001
-    4300000: Cube.001
-    4300002: Cube.002
-    4300004: Cube.004
-    4300006: Cube.005
-    4300008: Cube.006
-    4300010: Cube.007
-    4300012: Cylinder.001
-    4300014: Cylinder.003
-    4300016: Cylinder.007
-    4300018: Cylinder.008
-    4300020: Plane
-    4300022: Puerta.001
-    4300024: Puerta.002
-    4300026: Ventana
-    4300028: Ventana.001
-    4300030: tronco
-    7400000: Cube.002|Cube.002Action
-    7400002: Cube.005|Cube.002Action.002
-    9500000: //RootNode
+  serializedVersion: 24501
+  internalIDToNameTable: []
   externalObjects:
   - first:
       type: UnityEngine:Material
@@ -145,18 +60,18 @@ ModelImporter:
       name: vidrio
     second: {fileID: 2100000, guid: dc82e2eb5b0cc6a4c98baef2db2db77d, type: 2}
   materials:
-    importMaterials: 1
+    materialImportMode: 2
     materialName: 0
     materialSearch: 1
     materialLocation: 1
+    searchTexturesGlobally: 0
   animations:
     legacyGenerateAnimations: 4
     bakeSimulation: 0
     resampleCurves: 1
     optimizeGameObjects: 0
+    removeConstantScaleCurves: 0
     motionNodeName: 
-    rigImportErrors: 
-    rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
     animationRetargetingWarnings: 
@@ -178,25 +93,41 @@ ModelImporter:
     meshCompression: 0
     addColliders: 0
     useSRGBMaterialColor: 1
+    sortHierarchyByName: 1
+    importPhysicalCameras: 1
     importVisibility: 1
     importBlendShapes: 1
     importCameras: 1
     importLights: 1
+    nodeNameCollisionStrategy: 1
+    fileIdsGeneration: 2
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
+    bakeAxisConversion: 0
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    optimizeBones: 1
+    generateMeshLods: 0
+    meshLodGenerationFlags: 0
+    maximumMeshLod: -1
+    importUVs: -1
+    importVertexColors: 1
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
+    secondaryUVMarginMethod: 1
+    secondaryUVMinLightmapResolution: 40
+    secondaryUVMinObjectScale: 1
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 0.01
-    hasPreviousCalculatedGlobalScale: 1
+    strictVertexDataChecks: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -205,10 +136,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+    calculateBlendshapeNormalsDeltaFromImportedNormals: 0
+  referencedClips: []
   importAnimation: 1
-  copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -218,13 +150,19 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
     skeletonHasParents: 1
   lastHumanDescriptionAvatarSource: {instanceID: 0}
+  autoGenerateAvatarMappingIfUnspecified: 1
   animationType: 2
   humanoidOversampling: 1
+  avatarSetup: 0
+  addHumanoidExtraRootOnlyWhenUsingAvatar: 1
+  importBlendShapeDeformPercent: 1
+  remapMaterialsIfMaterialImportModeIsNone: 0
   additionalBone: 0
   userData: 
   assetBundleName: 
