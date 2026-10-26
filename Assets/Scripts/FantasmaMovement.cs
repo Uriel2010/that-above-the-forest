@@ -4,9 +4,15 @@ public class FantasmaMovement : MonoBehaviour
 {
     public enum Etapa { Parque, Tumba }
     public Etapa etapaActual = Etapa.Parque;
-    int estoy = 0;
+    int posicionActual = 0;
 
+    
     public float distanciaDeteccion = 1f;
+    public float velocidadCamino = 3f; // divide la distancia, más alto = más lento
+    public float duracionParticula = 3f;
+    public Transform fps;
+    public ParticleSystem particulas; // efecto al teletransportarse
+    public ParticleSystem camino;     // partículas fantasma -> fps
 
     public Transform[] posicionesParque; // 26 elementos, en orden
     public Transform[] posicionesTumba;  // 16 elementos, en orden
@@ -54,9 +60,23 @@ public class FantasmaMovement : MonoBehaviour
             break;
         }
     }
+    camino.Play();
 
     }
+    void Update()
+    {
+        camino.transform.position = transform.position;
+        camino.transform.LookAt(fps);
 
+        float distancia = Vector3.Distance(transform.position, fps.position);
+        float velocidad = distancia / velocidadCamino;
+
+        var main = camino.main;
+        main.startLifetime = duracionParticula;
+        main.startSpeed = velocidad;
+
+        
+    }
     void OnTriggerEnter(Collider other)
     {
         if (other.CompareTag("Player"))
@@ -66,14 +86,15 @@ public class FantasmaMovement : MonoBehaviour
     void AvanzarSiguiente()
     {
         int[][] tabla = etapaActual == Etapa.Parque ? puedoIrParque : puedoIrTumba;
-        int[] opciones = tabla[estoy];
+        int[] opciones = tabla[posicionActual];
+        particulas.Play(); // al desaparecer
 
         if (opciones.Length == 0)
         {
             if (etapaActual == Etapa.Parque)
             {
                 etapaActual = Etapa.Tumba;
-                estoy = 0;
+                posicionActual = 0;
             }
             else
             {
@@ -82,12 +103,12 @@ public class FantasmaMovement : MonoBehaviour
         }
         else
         {
-            estoy = opciones[Random.Range(0, opciones.Length)];
+            posicionActual = opciones[Random.Range(0, opciones.Length)];
         }
 
         Transform[] posiciones = etapaActual == Etapa.Parque ? posicionesParque : posicionesTumba;
-        transform.position = posiciones[estoy].position;
+        transform.position = posiciones[posicionActual].position;
 
-        Debug.Log($"Zona: {etapaActual} - Nodo {estoy + 1} - Posición: {transform.position}");
+        Debug.Log($"Zona: {etapaActual} - Nodo {posicionActual + 1} - Posición: {transform.position}");
     }
 }

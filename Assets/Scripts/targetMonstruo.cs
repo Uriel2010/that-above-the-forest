@@ -30,4 +30,4 @@ public class targetMonstruo : MonoBehaviour
     {
         posicionFijada = false;
     }
-}
+}               

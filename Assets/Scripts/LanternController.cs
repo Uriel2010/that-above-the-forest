@@ -1,10 +1,10 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class LanternController : MonoBehaviour
 {
     [SerializeField] private Light lantern;
-
     [SerializeField] private float intensidadAlta = 6f;
     [SerializeField] private float intensidadBaja = 3f;
     [SerializeField] private float rangoAlto = 20f;
@@ -13,6 +13,7 @@ public class LanternController : MonoBehaviour
     [SerializeField] private float anguloBajo = 90f;
 
     [SerializeField] private float tiempoMaximo = 100f;
+    [SerializeField] private Image Barra_Lintera;
 
     // Texto del contador
     [SerializeField] private TMP_Text textoContador;
@@ -46,7 +47,7 @@ public class LanternController : MonoBehaviour
                 lantern.range = rangoAlto;
                 lantern.spotAngle = anguloAlto;
             }
-            // Pasar a intensidad baja
+
             else if (modoAlto)
             {
                 modoAlto = false;
@@ -57,7 +58,6 @@ public class LanternController : MonoBehaviour
             }
         }
 
-        // Consumir tiempo mientras está en intensidad alta
         if (modoAlto)
         {
             tiempoRestante -= Time.deltaTime;
@@ -77,11 +77,13 @@ public class LanternController : MonoBehaviour
     }
 
     void ActualizarContador()
-    {
-        if (textoContador != null)
-        {
-            textoContador.text = Mathf.CeilToInt(tiempoRestante).ToString();
-        }
-    }
+{
+    if (textoContador != null)
+        textoContador.text = Mathf.CeilToInt(tiempoRestante).ToString();
+
+    if (Barra_Lintera!= null)
+        Barra_Lintera.fillAmount = tiempoRestante / tiempoMaximo;
+}
     public bool EstaEnModoAlto() { return modoAlto; }
+
 }
