@@ -14,9 +14,12 @@ public class CargarCuerpo : MonoBehaviour
 
     [Header("Configuración")]
     public KeyCode teclaCargar = KeyCode.E;
+    [Tooltip("Distancia horizontal máxima desde el jugador hasta el borde del cuerpo")]
     public float distanciaAgarre = 2.5f;
     [Tooltip("Qué tan cerca de la mira tiene que estar el cuerpo (grados desde el centro de la pantalla)")]
-    public float anguloAgarre = 45f;
+    public float anguloAgarre = 60f;
+    [Tooltip("Muestra en la consola por qué no se pudo agarrar el cuerpo")]
+    public bool mostrarDebug = true;
     [Range(0.1f, 1f)] public float multiplicadorCorrer = 0.5f; // al correr con el cuerpo, velocidad = normal x esto
     public float distanciaSoltar = 1.2f;                        // a qué distancia delante del jugador se suelta
 
@@ -73,10 +76,13 @@ public class CargarCuerpo : MonoBehaviour
             return;
 
         Vector3 origen = cam.transform.position;
-        Collider[] cercanos = Physics.OverlapSphere(origen, distanciaAgarre, ~0, QueryTriggerInteraction.Ignore);
+
+        // Se buscan candidatos con margen vertical (el collider puede estar en el piso y la cámara arriba)
+        Collider[] cercanos = Physics.OverlapSphere(origen, distanciaAgarre + 2f, ~0, QueryTriggerInteraction.Ignore);
 
         CuerpoCargable mejor = null;
-        float mejorAngulo = anguloAgarre;
+        float mejorAngulo = float.MaxValue;
+        bool habiaCandidato = false;
 
         foreach (Collider c in cercanos)
         {
@@ -84,27 +90,37 @@ public class CargarCuerpo : MonoBehaviour
             if (cuerpo == null || cuerpo.EstaCargado())
                 continue;
 
-            // Se mide hacia el punto más cercano del collider, así no depende de qué cara se mire
-            Vector3 punto = c.ClosestPoint(origen);
-            Vector3 haciaCuerpo = punto - origen;
-            float distancia = haciaCuerpo.magnitude;
-            if (distancia > distanciaAgarre)
+            habiaCandidato = true;
+
+            // 1) Distancia HORIZONTAL desde el jugador hasta el borde más cercano del cuerpo
+            Vector3 puntoCercano = c.ClosestPoint(transform.position);
+            Vector3 d = puntoCercano - transform.position;
+            d.y = 0f;
+            if (d.magnitude > distanciaAgarre)
+            {
+                Log("fuera de alcance (" + d.magnitude.ToString("F1") + " > " + distanciaAgarre + ")");
+                continue;
+            }
+
+            // 2) Cono de visión, medido hacia el centro del cuerpo
+            Vector3 centro = c.bounds.center;
+            Vector3 haciaCentro = centro - origen;
+            float angulo = Vector3.Angle(cam.transform.forward, haciaCentro);
+            if (angulo > anguloAgarre)
+            {
+                Log("fuera de la mira (" + angulo.ToString("F0") + "° > " + anguloAgarre + "°)");
+                continue;
+            }
+
+            // 3) Que no haya algo (pared, árbol) en el medio. Se ignoran el propio jugador y el propio cuerpo.
+            if (HayObstaculo(origen, centro, cuerpo))
                 continue;
 
-            // Debe estar dentro del cono de visión (si ya está pegado, siempre cuenta)
-            float angulo = distancia < 0.05f ? 0f : Vector3.Angle(cam.transform.forward, haciaCuerpo);
-            if (angulo > mejorAngulo)
-                continue;
-
-            // Que no haya una pared u otro objeto en el medio
-            RaycastHit hit;
-            if (distancia > 0.05f &&
-                Physics.Raycast(origen, haciaCuerpo.normalized, out hit, distancia + 0.05f, ~0, QueryTriggerInteraction.Ignore) &&
-                hit.collider.GetComponentInParent<CuerpoCargable>() != cuerpo)
-                continue;
-
-            mejor = cuerpo;
-            mejorAngulo = angulo;
+            if (angulo < mejorAngulo)
+            {
+                mejor = cuerpo;
+                mejorAngulo = angulo;
+            }
         }
 
         if (mejor != null)
@@ -113,6 +129,35 @@ public class CargarCuerpo : MonoBehaviour
             cuerpoActual = mejor;
             AplicarVelocidadCarga();
         }
+        else if (!habiaCandidato)
+        {
+            Log("no hay ningún CuerpoCargable cerca");
+        }
+    }
+
+    bool HayObstaculo(Vector3 origen, Vector3 destino, CuerpoCargable cuerpo)
+    {
+        Vector3 dir = destino - origen;
+        float dist = dir.magnitude;
+        if (dist < 0.01f)
+            return false;
+
+        RaycastHit[] hits = Physics.RaycastAll(origen, dir / dist, dist, ~0, QueryTriggerInteraction.Ignore);
+        foreach (RaycastHit h in hits)
+        {
+            if (h.collider.transform.IsChildOf(transform)) continue;                 // el propio jugador
+            if (h.collider.GetComponentInParent<CuerpoCargable>() == cuerpo) continue; // el propio cuerpo
+
+            Log("bloqueado por " + h.collider.name);
+            return true;
+        }
+        return false;
+    }
+
+    void Log(string mensaje)
+    {
+        if (mostrarDebug)
+            Debug.Log("CargarCuerpo: " + mensaje);
     }
 
     void Soltar()
