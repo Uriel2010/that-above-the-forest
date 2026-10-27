@@ -192,6 +192,16 @@ MonoBehaviour:
   m_CeilingCheckMask:
     serializedVersion: 2
     m_Bits: 4294967295
+  monstruo: {fileID: 0}
+  targetMonstruoRef: {fileID: 0}
+  linterna: {fileID: 0}
+  distanciaDeteccion: 20
+  semiAnguloDeteccion: 20
+  alturaPuntoObjetivo: 1
+  capaObstaculos:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  mostrarDebug: 1
 --- !u!54 &8301348219259879421
 Rigidbody:
   m_ObjectHideFlags: 0
