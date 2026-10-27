@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.UI;
 using TMPro;
 
 public class LanternController : MonoBehaviour
@@ -12,6 +13,7 @@ public class LanternController : MonoBehaviour
     [SerializeField] private float anguloBajo = 90f;
 
     [SerializeField] private float tiempoMaximo = 100f;
+    [SerializeField] private Image Barra_Lintera;
 
     // Texto del contador
     [SerializeField] private TMP_Text textoContador;
@@ -75,16 +77,13 @@ public class LanternController : MonoBehaviour
     }
 
     void ActualizarContador()
-    {
-        if (textoContador != null)
-        {
-            textoContador.text = Mathf.CeilToInt(tiempoRestante).ToString();
-        }
-    }
-    public bool EstaEnModoAlto() { return modoAlto; }
+{
+    if (textoContador != null)
+        textoContador.text = Mathf.CeilToInt(tiempoRestante).ToString();
 
-    // Datos actuales de la luz, para que otros scripts puedan calcular el cono de iluminación
-    public float RangoActual() { return lantern != null ? lantern.range : 0f; }
-    public float AnguloActual() { return lantern != null ? lantern.spotAngle : 0f; }
+    if (Barra_Lintera!= null)
+        Barra_Lintera.fillAmount = tiempoRestante / tiempoMaximo;
+}
+    public bool EstaEnModoAlto() { return modoAlto; }
 
 }
