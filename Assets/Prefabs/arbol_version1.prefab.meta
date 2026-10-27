@@ -1,6 +1,12 @@
 fileFormatVersion: 2
+<<<<<<< HEAD:Assets/Prefabs/arbol_version1.prefab.meta
 guid: a05ec17c2fdb8f04193f1c6eadcb9a08
 PrefabImporter:
+=======
+guid: c733bacfb20da46d29772a86681cced3
+folderAsset: yes
+DefaultImporter:
+>>>>>>> veo:Assets/Models/Personajes.meta
   externalObjects: {}
   userData: 
   assetBundleName: 
