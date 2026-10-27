@@ -4138,6 +4138,7 @@ MonoBehaviour:
   teclaCargar: 101
   distanciaAgarre: 2.5
   anguloAgarre: 45
+  mostrarDebug: 1
   multiplicadorCorrer: 0.5
   distanciaSoltar: 1.2
 --- !u!1 &1432005319
