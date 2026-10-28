@@ -5,6 +5,9 @@ using UnityEngine;
 [RequireComponent(typeof(Rigidbody))]
 public class CuerpoCargable : MonoBehaviour
 {
+    [Tooltip("Rotación (en grados) con la que queda el cuerpo mientras se carga. Ej: (90, 0, 0) para llevarlo acostado.")]
+    public Vector3 rotacionAlCargar = Vector3.zero;
+
     private Rigidbody rb;
     private Collider[] colliders;
     private bool cargado = false;
@@ -29,7 +32,7 @@ public class CuerpoCargable : MonoBehaviour
 
         transform.SetParent(puntoCarga);
         transform.localPosition = Vector3.zero;
-        transform.localRotation = Quaternion.identity;
+        transform.localRotation = Quaternion.Euler(rotacionAlCargar);
     }
 
     // Lo llama CargarCuerpo: el cuerpo vuelve a ser un objeto físico en el mundo.
