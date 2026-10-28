@@ -39,26 +39,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_CrouchTransitionSpeed = 8f;
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
-<<<<<<< HEAD
-=======
-        [Header("Animacion")]
-        [SerializeField] private Animator animator;
-        [SerializeField] private string nombreBool = "IsRunning";
-
-        [Header("Deteccion del Monstruo")]
-        [SerializeField] private Monstruo monstruo;              // referencia directa al monstruo de la escena
-        [SerializeField] private targetMonstruo targetMonstruoRef;
-        [SerializeField] private LanternController linterna;
-        [SerializeField] private float distanciaDeteccion = 20f;
-        [SerializeField] private float semiAnguloDeteccion = 20f; // mitad del ángulo del cono de luz, en grados
-        [SerializeField] private float alturaPuntoObjetivo = 1f;  // altura (desde los pies) del punto del monstruo que se chequea
-        [SerializeField] private LayerMask capaObstaculos = ~0;   // qué capas pueden tapar la línea de visión
-        [SerializeField] private bool mostrarDebug = true;
-
-        // Si ya lo tenía detectado en el frame anterior, para saber cuándo liberar el target.
-        private bool monstruoDetectado;
-
->>>>>>> veo
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -107,10 +87,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             HandleCrouch();
-            if (animator != null)   // nuevo
-            {
-             animator.SetBool(nombreBool, Input.GetKey(KeyCode.LeftShift));
-             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
