@@ -1,4 +1,4 @@
-using UnityEngine;
+/* using UnityEngine;
 using UnityEngineUI;
 
 public class StaminaBar : MonoBehaviour
@@ -36,3 +36,4 @@ public class StaminaBar : MonoBehaviour
 
 
     
+ */
