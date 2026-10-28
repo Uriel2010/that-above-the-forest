@@ -14,9 +14,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
-
-        // 1 = velocidad normal al correr. Lo modifica CargarCuerpo mientras el jugador carga algo pesado.
-        public float MultiplicadorCorrer { get; set; } = 1f;
         [SerializeField] [Range(0f, 1f)] private float m_RunstepLenghten;
         [SerializeField] private float m_JumpSpeed;
         [SerializeField] private float m_StickToGroundForce;
@@ -239,8 +236,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
             m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
 #endif
             // set the desired speed to be walking or running
-            // al correr se aplica el multiplicador (cargando un cuerpo es < 1), sin bajar nunca de la velocidad de caminar
-            speed = m_IsWalking ? m_WalkSpeed : Mathf.Max(m_WalkSpeed, m_RunSpeed * MultiplicadorCorrer);
+            speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;
 
             // agachado siempre pisa la velocidad, sea que estuviera caminando o corriendo
             if (m_IsCrouching)

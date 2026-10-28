@@ -7,11 +7,11 @@ public class targetMonstruo : MonoBehaviour
     public Monstruo monstruo; // si queda vacío se busca solo en la escena
 
     [Header("Configuración")]
-    public float distanciaDetras = 0.5f;        // cuánto atraviesa la línea al árbol
+    public float distanciaDetras = 1f;        // cuánto atraviesa la línea al árbol
     public float radioOcultamiento = 35f;       // radio alrededor del jugador donde empieza a esconderse
     public float distanciaPersecucion = 10f;    // a esta distancia o menos persigue directo
-    public float distanciaLlegada = 1f;         // distancia para considerar que el monstruo "llegó"
-    public float tiempoGracia = 5f;             // segundos que sigue escondiéndose después de perder la luz
+    public float distanciaLlegada = 0.2f;         // distancia para considerar que el monstruo "llegó"
+    public float tiempoGracia = 1.5f;             // segundos que sigue escondiéndose después de perder la luz
 
     [Header("Árboles (solo lectura, para debug)")]
     public Transform arbolCercaMonstruo;
@@ -80,11 +80,6 @@ public class targetMonstruo : MonoBehaviour
     // Llamado desde DetectorMonstruo cuando la linterna ilumina al monstruo.
     public void FijarPosicion(Vector3 posicion)
     {
-        // Al pasar de "no iluminado" a "iluminado" (y no estando ya escondiéndose),
-        // el monstruo frena por completo antes de cambiar de dirección.
-        if (!posicionFijada && tiempoGraciaRestante <= 0f && monstruo != null)
-            monstruo.Frenar();
-
         posicionFijada = true;
         ultimaPosMonstruo = posicion;
     }
