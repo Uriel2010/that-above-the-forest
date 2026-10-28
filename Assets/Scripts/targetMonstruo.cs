@@ -9,18 +9,21 @@ public class targetMonstruo : MonoBehaviour
     [Header("Configuración")]
     public float distanciaDetras = 1f;        // cuánto atraviesa la línea al árbol
     public float radioOcultamiento = 35f;       // radio alrededor del jugador donde empieza a esconderse
-    public float distanciaPersecucion = 10f;    // a esta distancia o menos persigue directo
+    public float distanciaPersecucion = 15f;    // a esta distancia o menos persigue directo
     public float distanciaLlegada = 0.2f;         // distancia para considerar que el monstruo "llegó"
     public float tiempoGracia = 1.5f;             // segundos que sigue escondiéndose después de perder la luz
+    public float distanciaHuida = 25f;          // al ser iluminado, se aleja hasta estar al menos a esta distancia del jugador
 
     [Header("Árboles (solo lectura, para debug)")]
     public Transform arbolCercaMonstruo;
     public Transform arbolSiguiente;
     public Transform arbolLejosPlayer;
+    public Transform arbolHuida;
 
     private enum Fase { Lejos, Siguiente }
     private Fase fase = Fase.Lejos;
     private bool rutaActiva = false;
+    private bool huyendo = false;               // true mientras se aleja del jugador tras ser iluminado
 
     private bool posicionFijada = false;        // true = monstruo iluminado
     private Vector3 ultimaPosMonstruo;
@@ -57,7 +60,24 @@ public class targetMonstruo : MonoBehaviour
         else if (tiempoGraciaRestante > 0f)
             tiempoGraciaRestante -= Time.deltaTime;
 
-        // 1) Iluminado (o dentro del tiempo de gracia): se esconde detrás del árbol más cercano a él
+        // 1) Huida: tras ser iluminado, se aleja hasta estar a "distanciaHuida" del jugador.
+        //    Sigue huyendo aunque la luz ya no lo toque.
+        if (huyendo)
+        {
+            if (DistHoriz(monstruo.transform.position, playerPosition.position) >= distanciaHuida)
+            {
+                huyendo = false;
+                arbolHuida = null;
+            }
+            else
+            {
+                IrA(arbolHuida);
+                rutaActiva = false;
+                return;
+            }
+        }
+
+        // 2) Iluminado ya lejos (o dentro del tiempo de gracia): se esconde detrás del árbol más cercano a él
         if (posicionFijada || tiempoGraciaRestante > 0f)
         {
             ActualizarIluminado();
@@ -65,7 +85,7 @@ public class targetMonstruo : MonoBehaviour
             return;
         }
 
-        // 2) No iluminado y cerca del jugador: persecución directa
+        // 3) No iluminado y cerca del jugador: persecución directa
         if (DistHoriz(monstruo.transform.position, playerPosition.position) <= distanciaPersecucion)
         {
             transform.position = playerPosition.position;
@@ -73,13 +93,29 @@ public class targetMonstruo : MonoBehaviour
             return;
         }
 
-        // 3) No iluminado: avanza de árbol en árbol hacia el jugador
+        // 4) No iluminado: avanza de árbol en árbol hacia el jugador
         ActualizarOculto();
     }
 
     // Llamado desde DetectorMonstruo cuando la linterna ilumina al monstruo.
     public void FijarPosicion(Vector3 posicion)
     {
+        // Al pasar de "no iluminado" a "iluminado" (y sin estar ya escondiéndose o huyendo),
+        // el monstruo frena por completo antes de cambiar de dirección.
+        if (!posicionFijada && !huyendo && tiempoGraciaRestante <= 0f && monstruo != null)
+            monstruo.Frenar();
+
+        // Al ser iluminado estando a menos de "distanciaHuida", empieza la huida
+        if (!posicionFijada && !huyendo && monstruo != null && playerPosition != null &&
+            DistHoriz(monstruo.transform.position, playerPosition.position) < distanciaHuida)
+        {
+            arbolHuida = ElegirArbolHuida();
+            huyendo = arbolHuida != null;
+
+            if (!huyendo)
+                Debug.LogWarning("targetMonstruo: no hay árboles a " + distanciaHuida + " unidades o más del jugador para huir.");
+        }
+
         posicionFijada = true;
         ultimaPosMonstruo = posicion;
     }
@@ -200,6 +236,43 @@ public class targetMonstruo : MonoBehaviour
             }
         }
         return mejor;
+    }
+
+    // Árbol más cercano al monstruo que esté a "distanciaHuida" o más del jugador, preferentemente
+    // del mismo lado que el monstruo (para que no tenga que pasar cerca del jugador al huir).
+    Transform ElegirArbolHuida()
+    {
+        Vector3 posMonstruo = monstruo.transform.position;
+        Vector3 dirMonstruo = posMonstruo - playerPosition.position;
+        dirMonstruo.y = 0f;
+        dirMonstruo.Normalize();
+
+        Transform mejorMismoLado = null, mejorCualquiera = null;
+        float distMismoLado = float.MaxValue, distCualquiera = float.MaxValue;
+
+        foreach (Transform a in arboles)
+        {
+            if (a == null) continue;
+            if (DistHoriz(a.position, playerPosition.position) < distanciaHuida) continue;
+
+            float d = DistHoriz(a.position, posMonstruo);
+
+            if (d < distCualquiera)
+            {
+                distCualquiera = d;
+                mejorCualquiera = a;
+            }
+
+            Vector3 dirArbol = a.position - playerPosition.position;
+            dirArbol.y = 0f;
+            if (Vector3.Dot(dirMonstruo, dirArbol.normalized) > 0f && d < distMismoLado)
+            {
+                distMismoLado = d;
+                mejorMismoLado = a;
+            }
+        }
+
+        return mejorMismoLado != null ? mejorMismoLado : mejorCualquiera;
     }
 
     // Árbol más cercano a "actual" que esté más cerca del jugador que "actual".
