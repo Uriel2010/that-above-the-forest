@@ -14,7 +14,7 @@ public class TreeTerrainTagger : MonoBehaviour
             Vector3 pos = Vector3.Scale(t.position, data.size) + terrain.transform.position;
 
             var go = new GameObject("TreeProxy");
-            go.tag = "Tree";
+            go.tag = "arbol";
             go.transform.position = pos;
             go.transform.parent = parent;
 
