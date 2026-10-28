@@ -36,23 +36,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_CrouchTransitionSpeed = 8f;
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
-        [Header("Animacion")]
-        [SerializeField] private Animator animator;
-        [SerializeField] private string nombreBool = "IsRunning";
-
-        [Header("Deteccion del Monstruo")]
-        [SerializeField] private Monstruo monstruo;              // referencia directa al monstruo de la escena
-        [SerializeField] private targetMonstruo targetMonstruoRef;
-        [SerializeField] private LanternController linterna;
-        [SerializeField] private float distanciaDeteccion = 20f;
-        [SerializeField] private float semiAnguloDeteccion = 20f; // mitad del ángulo del cono de luz, en grados
-        [SerializeField] private float alturaPuntoObjetivo = 1f;  // altura (desde los pies) del punto del monstruo que se chequea
-        [SerializeField] private LayerMask capaObstaculos = ~0;   // qué capas pueden tapar la línea de visión
-        [SerializeField] private bool mostrarDebug = true;
-
-        // Si ya lo tenía detectado en el frame anterior, para saber cuándo liberar el target.
-        private bool monstruoDetectado;
-
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -101,10 +84,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             HandleCrouch();
-            if (animator != null)   // nuevo
-            {
-             animator.SetBool(nombreBool, Input.GetKey(KeyCode.LeftShift));
-             }
 
             if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             {
@@ -119,8 +98,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
             }
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
-
-            DetectarMonstruo();
         }
 
 
@@ -346,82 +323,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 return;
             }
             body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
-        }
-
-
-        private void DetectarMonstruo()
-        {
-            // Si la linterna no está en modo alto, no detectamos al monstruo.
-            bool linternaEnModoAlto = linterna != null && linterna.EstaEnModoAlto();
-
-            bool detectadoAhora = linternaEnModoAlto && monstruo != null && m_Camera != null
-                                   && EstaEnConoDeVision();
-
-            if (detectadoAhora)
-            {
-                if (targetMonstruoRef != null)
-                {
-                    targetMonstruoRef.FijarPosicion(monstruo.transform.position);
-                }
-            }
-            // Si dejamos de mirar al monstruo, liberamos el target
-            // para que vuelva a seguir al jugador.
-            else if (monstruoDetectado)
-            {
-                if (targetMonstruoRef != null)
-                {
-                    targetMonstruoRef.LiberarPosicion();
-                }
-            }
-
-            monstruoDetectado = detectadoAhora;
-        }
-
-        // Chequeo estándar de "cono de visión": distancia -> ángulo -> línea de visión.
-        // Devuelve true solo si el monstruo está cerca, dentro del cono de luz,
-        // y no hay nada (pared, objeto) tapando el camino entre la cámara y él.
-        private bool EstaEnConoDeVision()
-        {
-            Vector3 origen = m_Camera.transform.position;
-            Vector3 puntoObjetivo = monstruo.transform.position + Vector3.up * alturaPuntoObjetivo;
-
-            Vector3 direccionAlObjetivo = puntoObjetivo - origen;
-            float distancia = direccionAlObjetivo.magnitude;
-
-            // 1) Distancia: lo más barato de chequear primero, para cortar rápido.
-            if (distancia > distanciaDeteccion)
-            {
-                return false;
-            }
-
-            // 2) Ángulo: ¿está dentro del cono de luz?
-            float angulo = Vector3.Angle(m_Camera.transform.forward, direccionAlObjetivo);
-            if (angulo > semiAnguloDeteccion)
-            {
-                return false;
-            }
-
-            // 3) Línea de visión: un único raycast hacia el monstruo. Si algo que no
-            // sea el propio monstruo lo tapa en el medio, no cuenta como detectado.
-            RaycastHit hit;
-            bool huboObstaculo = Physics.Raycast(origen, direccionAlObjetivo.normalized, out hit, distancia, capaObstaculos);
-
-            if (huboObstaculo && hit.collider.GetComponentInParent<Monstruo>() != monstruo)
-            {
-                if (mostrarDebug)
-                {
-                    Debug.DrawLine(origen, hit.point, Color.yellow); // algo lo está tapando
-                }
-
-                return false;
-            }
-
-            if (mostrarDebug)
-            {
-                Debug.DrawLine(origen, puntoObjetivo, Color.red); // detectado
-            }
-
-            return true;
         }
     }
 }
