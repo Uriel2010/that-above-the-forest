@@ -27,6 +27,8 @@ public class Puerta : MonoBehaviour
         cartel.SetActive(cerca && !moviendo);
 
         if (cerca && Input.GetKeyDown(tecla)) Alternar();
+        float d = Vector3.Distance(jugador.position, transform.position);
+Debug.Log("Distancia: " + d);
     }
 
     void Alternar()
