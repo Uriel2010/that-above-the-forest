@@ -9426,7 +9426,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &1363205443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -10095,7 +10095,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219ebe0d3e00616439826196f2279503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CuerpoCargable
+  posicionAlCargar: {x: 0, y: 0, z: 0}
   rotacionAlCargar: {x: 0, y: 90, z: 0}
+  balanceo: 1
+  amplitudAndando: 0.03
+  frecuenciaAndando: 2
+  amplitudQuieto: 0.008
+  frecuenciaQuieto: 0.4
+  velocidadReferencia: 5
 --- !u!54 &1571567970
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -20807,7 +20814,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 219ebe0d3e00616439826196f2279503, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::CuerpoCargable
-  rotacionAlCargar: {x: 0, y: 10, z: 270}
+  posicionAlCargar: {x: -0.65, y: -1.35, z: 0}
+  rotacionAlCargar: {x: 3.5, y: -57.22, z: 270}
+  balanceo: 1
+  amplitudAndando: 0.03
+  frecuenciaAndando: 2
+  amplitudQuieto: 0.008
+  frecuenciaQuieto: 0.4
+  velocidadReferencia: 5
 --- !u!54 &1995674445
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -21636,12 +21650,13 @@ SceneRoots:
   - {fileID: 1668103352}
   - {fileID: 339486826}
   - {fileID: 1189368409}
+  - {fileID: 540041998}
+  - {fileID: 1363205444}
   - {fileID: 273684095}
   - {fileID: 248471811}
   - {fileID: 327025446}
   - {fileID: 496383644}
   - {fileID: 1048873953}
-  - {fileID: 1363205444}
   - {fileID: 1734053550}
   - {fileID: 1845882887}
   - {fileID: 1326898088}
@@ -21652,4 +21667,3 @@ SceneRoots:
   - {fileID: 411184044}
   - {fileID: 1292073030}
   - {fileID: 240814259}
-  - {fileID: 540041998}
