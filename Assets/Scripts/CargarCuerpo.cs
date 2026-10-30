@@ -202,4 +202,10 @@ public class CargarCuerpo : MonoBehaviour
     }
 
     public bool EstaCargando() { return cuerpoActual != null; }
+
+    // Devuelve true si el objeto que se tiene en la mano tiene ese tag (ej: "pala")
+    public bool CargaObjetoConTag(string tag)
+    {
+        return cuerpoActual != null && cuerpoActual.CompareTag(tag);
+    }
 }
