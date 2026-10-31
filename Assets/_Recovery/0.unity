@@ -7853,7 +7853,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::Puerta
   jugador: {fileID: 1428128487}
-  cartel: {fileID: 0}
+  cartel: {fileID: 599296423}
   distancia: 2
   tecla: 111
   anguloApertura: 90
@@ -9798,7 +9798,7 @@ MonoBehaviour:
   anguloAlto: 100
   anguloBajo: 90
   tiempoMaximo: 100
-  Barra_Lintera: {fileID: 0}
+  Barra_Lintera: {fileID: 1011135774}
   textoContador: {fileID: 851088820}
 --- !u!4 &1428128487 stripped
 Transform:
@@ -15828,7 +15828,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4216968944616501000, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
       propertyPath: m_LocalPosition.y
-      value: 1.51
+      value: 0.1
       objectReference: {fileID: 0}
     - target: {fileID: 4216968944616501000, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15869,6 +15869,9 @@ PrefabInstance:
     - targetCorrespondingSourceObject: {fileID: 3588944788919432626, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
       insertIndex: -1
       addedObject: {fileID: 1926597628}
+    - targetCorrespondingSourceObject: {fileID: 3588944788919432626, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1926597631}
   m_SourcePrefab: {fileID: 100100000, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
 --- !u!4 &1926597619 stripped
 Transform:
@@ -15902,48 +15905,68 @@ MonoBehaviour:
   posicionesParque:
   - {fileID: 282744518}
   - {fileID: 197335131}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1358974421}
+  - {fileID: 1214320302}
+  - {fileID: 1309540222}
+  - {fileID: 1432005320}
+  - {fileID: 715016122}
+  - {fileID: 711633468}
+  - {fileID: 533758851}
+  - {fileID: 1520743407}
+  - {fileID: 810943572}
+  - {fileID: 824219111}
+  - {fileID: 1642367651}
+  - {fileID: 1758484767}
+  - {fileID: 573859954}
+  - {fileID: 728723312}
+  - {fileID: 333663174}
+  - {fileID: 1928796963}
+  - {fileID: 395565108}
+  - {fileID: 161882709}
+  - {fileID: 137181971}
+  - {fileID: 1136969908}
+  - {fileID: 1156270084}
+  - {fileID: 1096288834}
+  - {fileID: 1039059345}
+  - {fileID: 1709987998}
   posicionesTumba:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
+  - {fileID: 1709987998}
+  - {fileID: 865522710}
+  - {fileID: 876158563}
+  - {fileID: 1403092856}
+  - {fileID: 605963869}
+  - {fileID: 1099486213}
+  - {fileID: 43826294}
+  - {fileID: 1193676238}
+  - {fileID: 977008913}
+  - {fileID: 77866106}
+  - {fileID: 2121828232}
+  - {fileID: 731369515}
+  - {fileID: 1999001332}
+  - {fileID: 1622364860}
+  - {fileID: 255545400}
+  - {fileID: 1640473945}
+--- !u!135 &1926597631
+SphereCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1926597620}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 3
+  m_Radius: 0.57
+  m_Center: {x: -0.03, y: 1.74, z: 0}
 --- !u!1 &1928796962
 GameObject:
   m_ObjectHideFlags: 0
