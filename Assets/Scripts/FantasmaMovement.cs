@@ -47,7 +47,7 @@ public class FantasmaMovement : MonoBehaviour
 
     void Start()
     {
-        Debug.Log("Start corrió");
+
 
 
 
@@ -79,7 +79,7 @@ public class FantasmaMovement : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        Debug.Log("Trigger con: " + other.name + " tag: " + other.tag);
+    
         if (other.CompareTag("Player"))
             AvanzarSiguiente();
     }
