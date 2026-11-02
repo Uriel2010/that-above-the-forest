@@ -28,6 +28,7 @@ public class Puerta : MonoBehaviour
 
         if (cerca && Input.GetKeyDown(tecla)) Alternar();
         float d = Vector3.Distance(jugador.position, transform.position);
+        Debug.Log("Distancia: " + Vector3.Distance(jugador.position, transform.position) + " | cerca: " + cerca);
 
     }
 
