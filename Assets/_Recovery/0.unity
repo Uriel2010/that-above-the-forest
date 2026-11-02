@@ -9863,7 +9863,9 @@ MonoBehaviour:
   distanciaCavar: 3
   distanciaAdelante: 1.5
   mostrarDebug: 1
-  restaurarAlSalir: 1
+  radioRelleno: 2
+  duracionRelleno: 1.5
+  teclaRestaurar: 0
 --- !u!1 &1432005319
 GameObject:
   m_ObjectHideFlags: 0
@@ -15554,6 +15556,37 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!1 &1729542337
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1729542338}
+  m_Layer: 0
+  m_Name: ZonaEntierro
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1729542338
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1729542337}
+  serializedVersion: 2
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 312.9, y: 1, z: -21.3}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1734053548
 GameObject:
   m_ObjectHideFlags: 0
@@ -21776,6 +21809,7 @@ SceneRoots:
   - {fileID: 273684095}
   - {fileID: 248471811}
   - {fileID: 327025446}
+  - {fileID: 1729542338}
   - {fileID: 496383644}
   - {fileID: 1048873953}
   - {fileID: 1734053550}

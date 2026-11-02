@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,12 +13,16 @@ public class CavarTerreno : MonoBehaviour
 
     [Header("Configuración")]
     public string tagPala = "pala";
-    public float profundidad = 0.33f;     // cuánto baja el suelo en cada cavada (unidades del mundo)
-    public float radio = 1f;              // radio del pozo (unidades del mundo)
+    public float profundidad = 0.6f;     // cuánto baja el suelo en cada cavada (unidades del mundo)
+    public float radio = 1.5f;              // radio del pozo (unidades del mundo)
     public float distanciaCavar = 3f;     // a qué distancia puede cavar mirando
     public float distanciaAdelante = 1.5f; // si no mira al suelo, cava a esta distancia delante del jugador
     [Tooltip("Muestra en la consola por qué no se pudo cavar")]
     public bool mostrarDebug = true;
+
+    [Header("Rellenar pozo")]
+    public float radioRelleno = 2f;       // radio del área que se rellena (debe abarcar todo el pozo)
+    public float duracionRelleno = 1.5f;  // segundos que tarda en rellenarse
 
     [Tooltip("Tecla para devolver el terreno a su forma original sin salir del juego (None = desactivada)")]
     public KeyCode teclaRestaurar = KeyCode.None;
@@ -72,6 +77,10 @@ public class CavarTerreno : MonoBehaviour
             Log("no hay en la mano un objeto con el tag '" + tagPala + "' (¿lo agarraste con E? ¿el tag está en el mismo objeto que tiene CuerpoCargable?)");
             return;
         }
+
+        // Si se hace click sobre un cuerpo enterrado, se rellena el pozo. Si no, se cava.
+        if (IntentarRellenar())
+            return;
 
         Cavar();
     }
@@ -159,6 +168,102 @@ public class CavarTerreno : MonoBehaviour
         }
 
         td.SetHeights(x0, z0, alturas);
+    }
+
+    // ---------- Rellenar ----------
+
+    bool IntentarRellenar()
+    {
+        RaycastHit hit;
+        if (!Physics.SphereCast(cam.transform.position, 0.25f, cam.transform.forward, out hit, distanciaCavar, ~0, QueryTriggerInteraction.Ignore))
+            return false;
+
+        CuerpoCargable cuerpo = hit.collider.GetComponentInParent<CuerpoCargable>();
+        if (cuerpo == null || !cuerpo.EstaEnterrado() || cuerpo.YaRellenado())
+            return false;
+
+        cuerpo.MarcarRellenado();
+        StartCoroutine(RellenarPozo(cuerpo.transform.position));
+        Log("rellenando el pozo");
+        return true;
+    }
+
+    // Devuelve el terreno alrededor de "centro" a su altura original, de forma gradual
+    IEnumerator RellenarPozo(Vector3 centro)
+    {
+        Terrain terreno = null;
+        TerrainData original = null;
+        foreach (KeyValuePair<Terrain, TerrainData> par in originales)
+        {
+            Vector3 l = centro - par.Key.transform.position;
+            if (l.x >= 0f && l.z >= 0f && l.x <= par.Value.size.x && l.z <= par.Value.size.z)
+            {
+                terreno = par.Key;
+                original = par.Value;
+                break;
+            }
+        }
+        if (terreno == null)
+            yield break;
+
+        TerrainData td = terreno.terrainData;
+        int res = td.heightmapResolution;
+        Vector3 local = centro - terreno.transform.position;
+
+        int cx = Mathf.RoundToInt(local.x / td.size.x * (res - 1));
+        int cz = Mathf.RoundToInt(local.z / td.size.z * (res - 1));
+        int rx = Mathf.CeilToInt(radioRelleno / td.size.x * (res - 1));
+        int rz = Mathf.CeilToInt(radioRelleno / td.size.z * (res - 1));
+
+        int x0 = Mathf.Clamp(cx - rx, 0, res - 1);
+        int z0 = Mathf.Clamp(cz - rz, 0, res - 1);
+        int x1 = Mathf.Clamp(cx + rx, 0, res - 1);
+        int z1 = Mathf.Clamp(cz + rz, 0, res - 1);
+        int ancho = x1 - x0 + 1;
+        int alto = z1 - z0 + 1;
+
+        float[,] inicio = td.GetHeights(x0, z0, ancho, alto);
+        float[,] objetivo = original.GetHeights(x0, z0, ancho, alto);
+        float[,] actual = (float[,])inicio.Clone();
+
+        float tiempo = 0f;
+        while (tiempo < 1f)
+        {
+            tiempo += Time.deltaTime / Mathf.Max(0.01f, duracionRelleno);
+            float k = Mathf.SmoothStep(0f, 1f, Mathf.Clamp01(tiempo));
+
+            for (int i = 0; i < alto; i++)
+            {
+                for (int j = 0; j < ancho; j++)
+                {
+                    float dx = (x0 + j - cx) / (float)(res - 1) * td.size.x;
+                    float dz = (z0 + i - cz) / (float)(res - 1) * td.size.z;
+                    if (dx * dx + dz * dz > radioRelleno * radioRelleno) continue;
+
+                    actual[i, j] = Mathf.Lerp(inicio[i, j], objetivo[i, j], k);
+                }
+            }
+
+            td.SetHeights(x0, z0, actual);
+            yield return null;
+        }
+    }
+
+    // Cuánto más bajo está el terreno en ese punto respecto de su forma original (en unidades del mundo)
+    public float ProfundidadEn(Vector3 posicion)
+    {
+        foreach (KeyValuePair<Terrain, TerrainData> par in originales)
+        {
+            Vector3 l = posicion - par.Key.transform.position;
+            TerrainData orig = par.Value;
+            if (l.x < 0f || l.z < 0f || l.x > orig.size.x || l.z > orig.size.z)
+                continue;
+
+            float u = l.x / orig.size.x;
+            float v = l.z / orig.size.z;
+            return orig.GetInterpolatedHeight(u, v) - par.Key.terrainData.GetInterpolatedHeight(u, v);
+        }
+        return 0f;
     }
 
     // Devuelve todos los terrenos a su forma original (la del proyecto)
