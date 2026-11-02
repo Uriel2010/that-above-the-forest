@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Se agrega al GameObject del jugador (junto a CargarCuerpo).
@@ -18,11 +19,30 @@ public class CavarTerreno : MonoBehaviour
     [Tooltip("Muestra en la consola por qué no se pudo cavar")]
     public bool mostrarDebug = true;
 
-    [Tooltip("Los cambios en un Terrain se guardan en el asset incluso al salir del Play. Si está activo, al cerrar el juego el terreno vuelve a su forma original.")]
-    public bool restaurarAlSalir = true;
+    [Tooltip("Tecla para devolver el terreno a su forma original sin salir del juego (None = desactivada)")]
+    public KeyCode teclaRestaurar = KeyCode.None;
 
-    private Terrain terrenoModificado;
-    private float[,] alturasOriginales;
+    // Terrain -> TerrainData original del proyecto (que nunca se modifica)
+    private Dictionary<Terrain, TerrainData> originales = new Dictionary<Terrain, TerrainData>();
+
+    // Antes de empezar, cada Terrain pasa a usar una COPIA de su TerrainData.
+    // Así lo que se cava vive solo en la copia: el asset del proyecto no cambia
+    // y el terreno empieza siempre en su estado inicial cada vez que se da Play.
+    void Awake()
+    {
+        foreach (Terrain t in Terrain.activeTerrains)
+        {
+            TerrainData original = t.terrainData;
+            TerrainData copia = Instantiate(original);
+
+            t.terrainData = copia;
+            TerrainCollider colisionador = t.GetComponent<TerrainCollider>();
+            if (colisionador != null)
+                colisionador.terrainData = copia;
+
+            originales[t] = original;
+        }
+    }
 
     void Start()
     {
@@ -35,6 +55,9 @@ public class CavarTerreno : MonoBehaviour
 
     void Update()
     {
+        if (teclaRestaurar != KeyCode.None && Input.GetKeyDown(teclaRestaurar))
+            RestaurarTerreno();
+
         if (!Input.GetMouseButtonDown(0))
             return;
 
@@ -97,14 +120,6 @@ public class CavarTerreno : MonoBehaviour
         if (alturaSobreBase < 0.01f)
             Log("el terreno ya está en su altura mínima en este punto, no puede bajar más. Subí la altura base del terreno (ver instrucciones).");
 
-        // Se guarda la forma original la primera vez, para poder restaurarla al salir
-        if (restaurarAlSalir && alturasOriginales == null)
-        {
-            terrenoModificado = terreno;
-            int r = td.heightmapResolution;
-            alturasOriginales = td.GetHeights(0, 0, r, r);
-        }
-
         int res = td.heightmapResolution;
         Vector3 local = hit.point - terreno.transform.position;
 
@@ -146,9 +161,16 @@ public class CavarTerreno : MonoBehaviour
         td.SetHeights(x0, z0, alturas);
     }
 
-    void OnDestroy()
+    // Devuelve todos los terrenos a su forma original (la del proyecto)
+    [ContextMenu("Restaurar terreno")]
+    public void RestaurarTerreno()
     {
-        if (restaurarAlSalir && terrenoModificado != null && alturasOriginales != null)
-            terrenoModificado.terrainData.SetHeights(0, 0, alturasOriginales);
+        foreach (KeyValuePair<Terrain, TerrainData> par in originales)
+        {
+            TerrainData original = par.Value;
+            TerrainData actual = par.Key.terrainData;
+            int r = original.heightmapResolution;
+            actual.SetHeights(0, 0, original.GetHeights(0, 0, r, r));
+        }
     }
 }
