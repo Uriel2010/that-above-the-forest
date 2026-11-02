@@ -49,7 +49,7 @@ public class FantasmaMovement : MonoBehaviour
     {
 
 
-    GetComponent<SphereCollider>().radius = distanciaDeteccion;
+
 
     Collider[] enZona = Physics.OverlapSphere(transform.position, distanciaDeteccion);
     foreach (Collider c in enZona)
@@ -79,6 +79,7 @@ public class FantasmaMovement : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
+    
         if (other.CompareTag("Player"))
             AvanzarSiguiente();
     }
