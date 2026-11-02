@@ -87,7 +87,7 @@ public class CargarCuerpo : MonoBehaviour
         foreach (Collider c in cercanos)
         {
             CuerpoCargable cuerpo = c.GetComponentInParent<CuerpoCargable>();
-            if (cuerpo == null || cuerpo.EstaCargado())
+            if (cuerpo == null || cuerpo.EstaCargado() || cuerpo.EstaEnterrado())
                 continue;
 
             habiaCandidato = true;

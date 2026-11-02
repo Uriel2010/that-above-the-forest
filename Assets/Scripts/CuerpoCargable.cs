@@ -43,6 +43,23 @@ public class CuerpoCargable : MonoBehaviour
 
     public bool EstaCargado() { return cargado; }
 
+    // ---- Entierro ----
+    private bool enterrado = false;
+    private bool rellenado = false;
+
+    public bool EstaEnterrado() { return enterrado; }
+    public bool YaRellenado() { return rellenado; }
+
+    // Lo llama ZonaEntierro: el cuerpo queda quieto y ya no se puede agarrar.
+    public void Enterrar()
+    {
+        enterrado = true;
+        rb.isKinematic = true;
+    }
+
+    // Lo llama CavarTerreno cuando se rellena el pozo.
+    public void MarcarRellenado() { rellenado = true; }
+
     // Se aplica cada frame mientras se carga, así se puede ajustar la posición y la rotación
     // en el Inspector con el juego corriendo y ver el resultado al instante.
     void LateUpdate()
