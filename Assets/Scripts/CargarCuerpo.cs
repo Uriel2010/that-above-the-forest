@@ -12,6 +12,16 @@ public class CargarCuerpo : MonoBehaviour
     [Tooltip("Dónde queda el cuerpo mientras se carga. Si queda vacío se crea uno delante de la cámara.")]
     public Transform puntoCarga;
 
+    [Header("Cuerpo escondido (pie del arbusto)")]
+    [Tooltip("El cuerpo que el jugador recibe al apretar la tecla de cargar mirando el 'pie'. Puede estar desactivado en la escena.")]
+    public CuerpoCargable cuerpoDelPie;
+    [Tooltip("Tag del arbusto (o de alguno de sus padres) que hay que mirar")]
+    public string tagPie = "pie";
+    [Tooltip("También se acepta el nombre del objeto (o de alguno de sus padres)")]
+    public string nombrePie = "pie";
+    [Tooltip("Si está activo, el arbusto desaparece al sacar el cuerpo")]
+    public bool ocultarPieAlSacar = true;
+
     [Header("Configuración")]
     public KeyCode teclaCargar = KeyCode.E;
     [Tooltip("Distancia horizontal máxima desde el jugador hasta el borde del cuerpo")]
@@ -49,6 +59,10 @@ public class CargarCuerpo : MonoBehaviour
                 Debug.LogWarning("CargarCuerpo: no se encontraron m_RunSpeed / m_WalkSpeed en FirstPersonController.");
         }
 
+        // El cuerpo del arbusto empieza oculto: aparece recién al tocar E sobre el arbusto
+        if (cuerpoDelPie != null)
+            cuerpoDelPie.gameObject.SetActive(false);
+
         if (puntoCarga == null && cam != null)
         {
             GameObject punto = new GameObject("PuntoCarga");
@@ -64,10 +78,59 @@ public class CargarCuerpo : MonoBehaviour
         if (!Input.GetKeyDown(teclaCargar))
             return;
 
+        // Mirando el pie del arbusto: lo que se tiene en las manos pasa a ser el cuerpo
+        if (IntentarSacarDelPie())
+            return;
+
         if (cuerpoActual == null)
             IntentarCargar();
         else
             Soltar();
+    }
+
+    private bool pieUsado = false;
+
+    bool IntentarSacarDelPie()
+    {
+        if (pieUsado || cuerpoDelPie == null || cam == null || puntoCarga == null)
+            return false;
+
+        // Si el cuerpo ya está en las manos o ya fue enterrado, no hay nada que sacar
+        if (cuerpoDelPie.EstaCargado() || cuerpoDelPie.EstaEnterrado())
+            return false;
+
+        RaycastHit hit;
+        if (!Physics.SphereCast(cam.transform.position, 0.3f, cam.transform.forward, out hit, distanciaAgarre, ~0, QueryTriggerInteraction.Ignore))
+            return false;
+
+        // Se busca el "pie" (por tag o por nombre) en el objeto golpeado y en sus padres
+        Transform pie = null;
+        for (Transform t = hit.collider.transform; t != null; t = t.parent)
+        {
+            if (t.CompareTag(tagPie) || t.name == nombrePie)
+            {
+                pie = t;
+                break;
+            }
+        }
+        if (pie == null)
+            return false;
+
+        // Si ya tiene algo en las manos (por ejemplo la pala), lo suelta primero
+        if (cuerpoActual != null)
+            Soltar();
+
+        cuerpoDelPie.gameObject.SetActive(true);
+        cuerpoDelPie.Cargar(puntoCarga);
+        cuerpoActual = cuerpoDelPie;
+        AplicarVelocidadCarga();
+
+        pieUsado = true;
+        if (ocultarPieAlSacar)
+            pie.gameObject.SetActive(false);
+
+        Log("se sacó el cuerpo del pie");
+        return true;
     }
 
     void IntentarCargar()
