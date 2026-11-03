@@ -36,6 +36,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private float m_CrouchTransitionSpeed = 8f;
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
+		[Header("Animacion")]
+[SerializeField] private Animator animator;
+[SerializeField] private string nombreBool = "IsRunning";
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -83,19 +87,20 @@ namespace UnityStandardAssets.Characters.FirstPerson
                 m_Jump = CrossPlatformInputManager.GetButtonDown("Jump");
             }
 
-            HandleCrouch();
+           HandleCrouch();
 
-            if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
-            {
-                StartCoroutine(m_JumpBob.DoBobCycle());
-                PlayLandingSound();
-                m_MoveDir.y = 0f;
-                m_Jumping = false;
-            }
-            if (!m_CharacterController.isGrounded && !m_Jumping && m_PreviouslyGrounded)
-            {
-                m_MoveDir.y = 0f;
-            }
+if (animator != null)
+{
+    animator.SetBool(nombreBool, Input.GetKey(KeyCode.LeftShift));
+}
+
+if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
+{
+    StartCoroutine(m_JumpBob.DoBobCycle());
+    PlayLandingSound();
+    m_MoveDir.y = 0f;
+    m_Jumping = false;
+}
 
             m_PreviouslyGrounded = m_CharacterController.isGrounded;
         }
