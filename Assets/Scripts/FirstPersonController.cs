@@ -37,8 +37,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private LayerMask m_CeilingCheckMask = ~0; // capas contra las que chequear al querer pararse
 
 		[Header("Animacion")]
-[SerializeField] private Animator animator;
-[SerializeField] private string nombreBool = "IsRunning";
+        [SerializeField] private Animator animator;
+    [SerializeField] private string nombreBool = "IsRunning";
 
         private Camera m_Camera;
         private bool m_Jump;
