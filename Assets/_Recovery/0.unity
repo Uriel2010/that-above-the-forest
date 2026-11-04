@@ -20337,6 +20337,18 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 9004106274619205775, guid: cb5a238d4c63147e186105df28da2c23, type: 3}
+      propertyPath: tecla
+      value: 101
+      objectReference: {fileID: 0}
+    - target: {fileID: 9004106274619205775, guid: cb5a238d4c63147e186105df28da2c23, type: 3}
+      propertyPath: jugador
+      value: 
+      objectReference: {fileID: 1428128487}
+    - target: {fileID: 9004106274619205775, guid: cb5a238d4c63147e186105df28da2c23, type: 3}
+      propertyPath: anguloApertura
+      value: -90
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
     m_AddedGameObjects:
