@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 // Se agrega al objeto que representa el cuerpo (por ahora un cubo).
@@ -47,6 +48,9 @@ public class CuerpoCargable : MonoBehaviour
     private bool enterrado = false;
     private bool rellenado = false;
 
+    // Lista de todos los cuerpos enterrados (la usa CavarTerreno para saber cuál rellenar)
+    public static readonly List<CuerpoCargable> Enterrados = new List<CuerpoCargable>();
+
     public bool EstaEnterrado() { return enterrado; }
     public bool YaRellenado() { return rellenado; }
 
@@ -55,6 +59,13 @@ public class CuerpoCargable : MonoBehaviour
     {
         enterrado = true;
         rb.isKinematic = true;
+        if (!Enterrados.Contains(this))
+            Enterrados.Add(this);
+    }
+
+    void OnDestroy()
+    {
+        Enterrados.Remove(this);
     }
 
     // Lo llama CavarTerreno cuando se rellena el pozo.

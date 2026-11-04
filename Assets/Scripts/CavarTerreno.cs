@@ -13,15 +13,17 @@ public class CavarTerreno : MonoBehaviour
 
     [Header("Configuración")]
     public string tagPala = "pala";
-    public float profundidad = 0.6f;     // cuánto baja el suelo en cada cavada (unidades del mundo)
-    public float radio = 1.5f;              // radio del pozo (unidades del mundo)
+    public float profundidad = 0.33f;     // cuánto baja el suelo en cada cavada (unidades del mundo)
+    public float radio = 1f;              // radio del pozo (unidades del mundo)
     public float distanciaCavar = 3f;     // a qué distancia puede cavar mirando
     public float distanciaAdelante = 1.5f; // si no mira al suelo, cava a esta distancia delante del jugador
     [Tooltip("Muestra en la consola por qué no se pudo cavar")]
     public bool mostrarDebug = true;
 
     [Header("Rellenar pozo")]
-    public float radioRelleno = 2f;       // radio del área que se rellena (debe abarcar todo el pozo)
+    public float radioRelleno = 3f;       // radio del área que se rellena (debe abarcar todo el pozo)
+    public float distanciaRellenar = 4f;  // distancia horizontal máxima al cuerpo enterrado para poder rellenar
+    public float anguloRelleno = 50f;     // cuánto puede estar desviada la mira respecto del cuerpo (grados)
     public float duracionRelleno = 1.5f;  // segundos que tarda en rellenarse
 
     [Tooltip("Tecla para devolver el terreno a su forma original sin salir del juego (None = desactivada)")]
@@ -172,25 +174,48 @@ public class CavarTerreno : MonoBehaviour
 
     // ---------- Rellenar ----------
 
+    // Rellena si hay un cuerpo enterrado cerca y el jugador lo está mirando.
+    // No se usa un rayo contra el cuerpo porque el borde del pozo suele taparlo.
     bool IntentarRellenar()
     {
-        RaycastHit hit;
-        if (!Physics.SphereCast(cam.transform.position, 0.25f, cam.transform.forward, out hit, distanciaCavar, ~0, QueryTriggerInteraction.Ignore))
+        CuerpoCargable mejor = null;
+        float mejorAngulo = anguloRelleno;
+
+        foreach (CuerpoCargable c in CuerpoCargable.Enterrados)
+        {
+            if (c == null || c.YaRellenado())
+                continue;
+
+            Vector3 plano = c.transform.position - transform.position;
+            plano.y = 0f;
+            if (plano.magnitude > distanciaRellenar)
+            {
+                Log("hay un cuerpo enterrado pero está lejos (" + plano.magnitude.ToString("F1") + " > " + distanciaRellenar + ")");
+                continue;
+            }
+
+            float angulo = Vector3.Angle(cam.transform.forward, c.transform.position - cam.transform.position);
+            if (angulo > mejorAngulo)
+            {
+                Log("hay un cuerpo enterrado pero no lo estás mirando (" + angulo.ToString("F0") + "° > " + anguloRelleno + "°)");
+                continue;
+            }
+
+            mejor = c;
+            mejorAngulo = angulo;
+        }
+
+        if (mejor == null)
             return false;
 
-        CuerpoCargable cuerpo = hit.collider.GetComponentInParent<CuerpoCargable>();
-        if (cuerpo == null || !cuerpo.EstaEnterrado() || cuerpo.YaRellenado())
-            return false;
-
-        cuerpo.MarcarRellenado();
-        StartCoroutine(RellenarPozo(cuerpo.transform.position));
-        Log("rellenando el pozo");
+        StartCoroutine(RellenarPozo(mejor));
         return true;
     }
 
     // Devuelve el terreno alrededor de "centro" a su altura original, de forma gradual
-    IEnumerator RellenarPozo(Vector3 centro)
+    IEnumerator RellenarPozo(CuerpoCargable cuerpo)
     {
+        Vector3 centro = cuerpo.transform.position;
         Terrain terreno = null;
         TerrainData original = null;
         foreach (KeyValuePair<Terrain, TerrainData> par in originales)
@@ -204,7 +229,13 @@ public class CavarTerreno : MonoBehaviour
             }
         }
         if (terreno == null)
+        {
+            Log("no se encontró el Terrain bajo el cuerpo, no se puede rellenar");
             yield break;
+        }
+
+        cuerpo.MarcarRellenado();
+        Log("rellenando el pozo");
 
         TerrainData td = terreno.terrainData;
         int res = td.heightmapResolution;
@@ -247,6 +278,8 @@ public class CavarTerreno : MonoBehaviour
             td.SetHeights(x0, z0, actual);
             yield return null;
         }
+
+        Log("pozo rellenado");
     }
 
     // Cuánto más bajo está el terreno en ese punto respecto de su forma original (en unidades del mundo)
