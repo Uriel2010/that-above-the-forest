@@ -5144,23 +5144,23 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: -8679921383154817045, guid: 454288669f3cf460a8696a366f53ab2e, type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.3
+      value: 0.25127396
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 454288669f3cf460a8696a366f53ab2e, type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.3
+      value: 0.25127396
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 454288669f3cf460a8696a366f53ab2e, type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.3
+      value: 0.25127396
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 454288669f3cf460a8696a366f53ab2e, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.52
+      value: 0.27
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 454288669f3cf460a8696a366f53ab2e, type: 3}
       propertyPath: m_LocalPosition.y
-      value: -1.23
+      value: -0.50712
       objectReference: {fileID: 0}
     - target: {fileID: -8679921383154817045, guid: 454288669f3cf460a8696a366f53ab2e, type: 3}
       propertyPath: m_LocalPosition.z
@@ -15160,7 +15160,7 @@ PrefabInstance:
       addedObject: {fileID: 1926597628}
     - targetCorrespondingSourceObject: {fileID: 3588944788919432626, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
       insertIndex: -1
-      addedObject: {fileID: 1926597631}
+      addedObject: {fileID: 1926597633}
   m_SourcePrefab: {fileID: 100100000, guid: 344542a9ccf384ff18b3d8e95f0f2287, type: 3}
 --- !u!4 &1926597619 stripped
 Transform:
@@ -15235,8 +15235,8 @@ MonoBehaviour:
   - {fileID: 1622364860}
   - {fileID: 255545400}
   - {fileID: 1640473945}
---- !u!135 &1926597631
-SphereCollider:
+--- !u!64 &1926597633
+MeshCollider:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
@@ -15250,12 +15250,13 @@ SphereCollider:
     serializedVersion: 2
     m_Bits: 0
   m_LayerOverridePriority: 0
-  m_IsTrigger: 0
+  m_IsTrigger: 1
   m_ProvidesContacts: 0
   m_Enabled: 1
-  serializedVersion: 3
-  m_Radius: 0.57
-  m_Center: {x: -0.03, y: 1.74, z: 0}
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: -6301207979791077724, guid: 2e8da260ca3694b29a7116142df74c4e, type: 3}
 --- !u!1 &1928796962
 GameObject:
   m_ObjectHideFlags: 0
@@ -20341,6 +20342,10 @@ PrefabInstance:
       propertyPath: tecla
       value: 101
       objectReference: {fileID: 0}
+    - target: {fileID: 9004106274619205775, guid: cb5a238d4c63147e186105df28da2c23, type: 3}
+      propertyPath: cartel
+      value: 
+      objectReference: {fileID: 599296423}
     - target: {fileID: 9004106274619205775, guid: cb5a238d4c63147e186105df28da2c23, type: 3}
       propertyPath: jugador
       value: 
