@@ -22,10 +22,6 @@ public class CavarTerreno : MonoBehaviour
 
     [Header("Rellenar pozo")]
     public float radioRelleno = 3f;       // radio del área que se rellena (debe abarcar todo el pozo)
-    [Tooltip("Altura de la montañita que queda sobre la tumba, medida desde el suelo original")]
-    public float alturaMontana = 2.5f;
-    [Tooltip("Radio de la montañita (unidades del mundo)")]
-    public float radioMontana = 6f;
     public float distanciaRellenar = 4f;  // distancia horizontal máxima al cuerpo enterrado para poder rellenar
     public float anguloRelleno = 50f;     // cuánto puede estar desviada la mira respecto del cuerpo (grados)
     public float duracionRelleno = 1.5f;  // segundos que tarda en rellenarse
@@ -216,7 +212,7 @@ public class CavarTerreno : MonoBehaviour
         return true;
     }
 
-    // Rellena el pozo hasta la altura original y deja una montañita sobre el cuerpo, de forma gradual
+    // Devuelve el terreno alrededor de "centro" a su altura original, de forma gradual
     IEnumerator RellenarPozo(CuerpoCargable cuerpo)
     {
         Vector3 centro = cuerpo.transform.position;
@@ -247,10 +243,8 @@ public class CavarTerreno : MonoBehaviour
 
         int cx = Mathf.RoundToInt(local.x / td.size.x * (res - 1));
         int cz = Mathf.RoundToInt(local.z / td.size.z * (res - 1));
-        // El área abarca todo el pozo y también la montañita
-        float radioArea = Mathf.Max(radioRelleno, radioMontana);
-        int rx = Mathf.CeilToInt(radioArea / td.size.x * (res - 1));
-        int rz = Mathf.CeilToInt(radioArea / td.size.z * (res - 1));
+        int rx = Mathf.CeilToInt(radioRelleno / td.size.x * (res - 1));
+        int rz = Mathf.CeilToInt(radioRelleno / td.size.z * (res - 1));
 
         int x0 = Mathf.Clamp(cx - rx, 0, res - 1);
         int z0 = Mathf.Clamp(cz - rz, 0, res - 1);
@@ -262,23 +256,6 @@ public class CavarTerreno : MonoBehaviour
         float[,] inicio = td.GetHeights(x0, z0, ancho, alto);
         float[,] objetivo = original.GetHeights(x0, z0, ancho, alto);
         float[,] actual = (float[,])inicio.Clone();
-
-        // Se le suma a la altura original una montañita centrada en el cuerpo
-        float alturaMontanaNorm = alturaMontana / td.size.y; // alturas del Terrain: 0 a 1
-        for (int i = 0; i < alto; i++)
-        {
-            for (int j = 0; j < ancho; j++)
-            {
-                float dx = (x0 + j - cx) / (float)(res - 1) * td.size.x;
-                float dz = (z0 + i - cz) / (float)(res - 1) * td.size.z;
-                float dist = Mathf.Sqrt(dx * dx + dz * dz);
-                if (dist >= radioMontana) continue;
-
-                // 1 en el centro, 0 en el borde (bordes suaves)
-                float suavizado = 0.5f * (1f + Mathf.Cos(Mathf.PI * dist / radioMontana));
-                objetivo[i, j] = Mathf.Clamp01(objetivo[i, j] + alturaMontanaNorm * suavizado);
-            }
-        }
 
         float tiempo = 0f;
         while (tiempo < 1f)
@@ -292,7 +269,7 @@ public class CavarTerreno : MonoBehaviour
                 {
                     float dx = (x0 + j - cx) / (float)(res - 1) * td.size.x;
                     float dz = (z0 + i - cz) / (float)(res - 1) * td.size.z;
-                    if (dx * dx + dz * dz > radioArea * radioArea) continue;
+                    if (dx * dx + dz * dz > radioRelleno * radioRelleno) continue;
 
                     actual[i, j] = Mathf.Lerp(inicio[i, j], objetivo[i, j], k);
                 }
