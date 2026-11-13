@@ -12,7 +12,7 @@ public class ZonaEntierro : MonoBehaviour
 
     [Header("Configuración")]
     [Tooltip("Profundidad mínima del pozo (unidades del mundo) para poder enterrar el cuerpo")]
-    public float profundidadMinima = 0.3f;
+    public float profundidadMinima = 2.5f;
     [Tooltip("Segundos que el cuerpo tiene que estar quieto dentro de la zona")]
     public float tiempoQuieto = 0.75f;
     [Tooltip("Los objetos con este tag nunca se entierran (la pala)")]

@@ -23,9 +23,9 @@ public class CavarTerreno : MonoBehaviour
     [Header("Rellenar pozo")]
     public float radioRelleno = 3f;       // radio del área que se rellena (debe abarcar todo el pozo)
     [Tooltip("Altura de la montañita que queda sobre la tumba, medida desde el suelo original")]
-    public float alturaMontana = 2.5f;
+    public float alturaMontana = 2f;
     [Tooltip("Radio de la montañita (unidades del mundo)")]
-    public float radioMontana = 6f;
+    public float radioMontana = 10f;
     public float distanciaRellenar = 4f;  // distancia horizontal máxima al cuerpo enterrado para poder rellenar
     public float anguloRelleno = 50f;     // cuánto puede estar desviada la mira respecto del cuerpo (grados)
     public float duracionRelleno = 1.5f;  // segundos que tarda en rellenarse
@@ -301,6 +301,9 @@ public class CavarTerreno : MonoBehaviour
             td.SetHeights(x0, z0, actual);
             yield return null;
         }
+
+        // Recién cuando el pozo terminó de rellenarse el cuerpo desaparece
+        cuerpo.gameObject.SetActive(false);
 
         Log("pozo rellenado");
     }

@@ -15,7 +15,7 @@ RenderSettings:
   m_ObjectHideFlags: 0
   serializedVersion: 10
   m_Fog: 1
-  m_FogColor: {r: 0.06666667, g: 0.09803922, b: 0.13725491, a: 1}
+  m_FogColor: {r: 0.23584908, g: 0.23584908, b: 0.23584908, a: 1}
   m_FogMode: 3
   m_FogDensity: 0.05
   m_LinearFogStart: -10
@@ -25,8 +25,8 @@ RenderSettings:
   m_AmbientGroundColor: {r: 0.047, g: 0.043, b: 0.035, a: 1}
   m_AmbientIntensity: 0.35
   m_AmbientMode: 0
-  m_SubtractiveShadowColor: {r: 0.42, g: 0.478, b: 0.627, a: 1}
-  m_SkyboxMaterial: {fileID: 2100000, guid: c5ea6eeb9cbad4534a70d3b2dafde62f, type: 2}
+  m_SubtractiveShadowColor: {r: 0.1981132, g: 0.1981132, b: 0.1981132, a: 1}
+  m_SkyboxMaterial: {fileID: -5660971991646031192, guid: 6709a1d30fbb54797b1112cf4c8ffbc6, type: 3}
   m_HaloStrength: 0.5
   m_FlareStrength: 1
   m_FlareFadeSpeed: 3
@@ -6013,7 +6013,7 @@ Light:
   m_Enabled: 1
   serializedVersion: 13
   m_Type: 1
-  m_Color: {r: 0.56078434, g: 0.65882355, b: 0.78039217, a: 1}
+  m_Color: {r: 0.13207549, g: 0.13207549, b: 0.13207549, a: 1}
   m_Intensity: 0.8
   m_Range: 10
   m_SpotAngle: 30
@@ -6594,7 +6594,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!114 &510949918
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9317,7 +9317,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!224 &1213037949
 RectTransform:
   m_ObjectHideFlags: 0
@@ -10181,6 +10181,8 @@ MonoBehaviour:
   distanciaAdelante: 1.5
   mostrarDebug: 1
   radioRelleno: 5
+  alturaMontana: 0.75
+  radioMontana: 1.5
   distanciaRellenar: 4
   anguloRelleno: 50
   duracionRelleno: 1.5
@@ -15621,8 +15623,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::ZonaEntierro
   cavarTerreno: {fileID: 0}
-  profundidadMinima: 0.3
-  tiempoQuieto: 0.75
+  profundidadMinima: 2.5
+  tiempoQuieto: 1
   tagIgnorado: pala
   mostrarDebug: 1
 --- !u!1 &1734053548
