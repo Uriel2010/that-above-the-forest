@@ -1,9 +1,19 @@
 fileFormatVersion: 2
-guid: 7179b9c5a4c044c16934aa10a843cddb
+guid: d8c464fb9ee7145db86c6449197ee853
 ModelImporter:
   serializedVersion: 24501
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Material
+      assembly: UnityEngine.CoreModule
+      name: piel monstruo.001
+    second: {fileID: 2100000, guid: 319c53a16382a404baca10fa6a374406, type: 2}
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: pieldelmostruo
+    second: {fileID: 2800000, guid: a1a0d5744ddfe498eb6c8bc7d1b0b5be, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
