@@ -9169,6 +9169,10 @@ PrefabInstance:
       value: 248.4732
       objectReference: {fileID: 0}
     - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+      propertyPath: m_UseInitialPosition
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
       propertyPath: m_UsarPosicionInicial
       value: 1
       objectReference: {fileID: 0}
@@ -9865,7 +9869,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!114 &1363205443
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9909,9 +9913,9 @@ NavMeshAgent:
   m_AgentTypeID: 0
   m_Radius: 0.5
   m_Speed: 3.5
-  m_Acceleration: 8
+  m_Acceleration: 15
   avoidancePriority: 50
-  m_AngularSpeed: 120
+  m_AngularSpeed: 150
   m_StoppingDistance: 0
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -15659,11 +15663,12 @@ MonoBehaviour:
   playerPosition: {fileID: 1428128487}
   monstruo: {fileID: 0}
   distanciaDetras: 0.5
-  radioOcultamiento: 35
-  distanciaPersecucion: 10
+  radioOcultamiento: 40
+  distanciaPersecucion: 15
   distanciaLlegada: 1
-  tiempoGracia: 5
-  distanciaHuida: 25
+  tiempoGracia: 3
+  distanciaMinimaEntreArboles: 11
+  distanciaHuida: 35
   arbolCercaMonstruo: {fileID: 0}
   arbolSiguiente: {fileID: 0}
   arbolLejosPlayer: {fileID: 0}
@@ -16011,6 +16016,7 @@ MonoBehaviour:
   fps: {fileID: 1428128487}
   particulas: {fileID: 79217977}
   camino: {fileID: 79217977}
+  sonidoDesaparecer: {fileID: 0}
   posicionesParque:
   - {fileID: 282744518}
   - {fileID: 197335131}
@@ -21733,7 +21739,7 @@ BoxCollider:
   m_LayerOverridePriority: 0
   m_IsTrigger: 0
   m_ProvidesContacts: 0
-  m_Enabled: 1
+  m_Enabled: 0
   serializedVersion: 3
   m_Size: {x: 7, y: 7, z: 7}
   m_Center: {x: 0, y: 0, z: 0}
@@ -21857,6 +21863,7 @@ SceneRoots:
   m_Roots:
   - {fileID: 384247770}
   - {fileID: 1668103352}
+  - {fileID: 1734053550}
   - {fileID: 339486826}
   - {fileID: 1189368409}
   - {fileID: 1363205444}
@@ -21864,7 +21871,6 @@ SceneRoots:
   - {fileID: 248471811}
   - {fileID: 327025446}
   - {fileID: 496383644}
-  - {fileID: 1734053550}
   - {fileID: 1845882887}
   - {fileID: 1326898088}
   - {fileID: 1004047080}
