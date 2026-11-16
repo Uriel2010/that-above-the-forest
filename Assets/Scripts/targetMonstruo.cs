@@ -9,9 +9,10 @@ public class targetMonstruo : MonoBehaviour
     [Header("Configuración")]
     public float distanciaDetras = 1f;        // cuánto atraviesa la línea al árbol
     public float radioOcultamiento = 35f;       // radio alrededor del jugador donde empieza a esconderse
-    public float distanciaPersecucion = 15f;    // a esta distancia o menos persigue directo
+    public float distanciaPersecucion = 10f;    // a esta distancia o menos persigue directo
     public float distanciaLlegada = 0.2f;         // distancia para considerar que el monstruo "llegó"
     public float tiempoGracia = 1.5f;             // segundos que sigue escondiéndose después de perder la luz
+    public float distanciaMinimaEntreArboles = 5f; // el árbol siguiente debe estar al menos a esta distancia del anterior; si no, persigue directo
     public float distanciaHuida = 25f;          // al ser iluminado, se aleja hasta estar al menos a esta distancia del jugador
 
     [Header("Árboles (solo lectura, para debug)")]
@@ -31,6 +32,7 @@ public class targetMonstruo : MonoBehaviour
 
     private Transform[] arboles;
     private Transform ultimoArbolLog;
+    private bool avisoPersecucionDirecta = false;
 
     void Start()
     {
@@ -191,10 +193,16 @@ public class targetMonstruo : MonoBehaviour
     {
         if (arbol == null)
         {
-            Debug.LogWarning("targetMonstruo: no quedan árboles más cerca del jugador, el monstruo va directo hacia él.");
+            // Se avisa una sola vez (no en cada frame)
+            if (!avisoPersecucionDirecta)
+            {
+                avisoPersecucionDirecta = true;
+                Debug.Log("targetMonstruo: no hay un árbol siguiente a " + distanciaMinimaEntreArboles + " unidades o más del anterior (y más cerca del jugador), el monstruo persigue directo.");
+            }
             transform.position = playerPosition.position;
             return;
         }
+        avisoPersecucionDirecta = false;
 
         if (arbol != ultimoArbolLog)
         {
@@ -275,7 +283,8 @@ public class targetMonstruo : MonoBehaviour
         return mejorMismoLado != null ? mejorMismoLado : mejorCualquiera;
     }
 
-    // Árbol más cercano a "actual" que esté más cerca del jugador que "actual".
+    // Árbol más cercano a "actual" que esté más cerca del jugador que "actual" y a al menos
+    // "distanciaMinimaEntreArboles" de él. Si no hay ninguno, devuelve null (persecución directa).
     Transform SiguienteMasCercanoAlJugador(Transform actual)
     {
         if (actual == null) return null;
@@ -290,6 +299,7 @@ public class targetMonstruo : MonoBehaviour
             if (DistHoriz(a.position, playerPosition.position) >= distActualJugador) continue;
 
             float d = DistHoriz(a.position, actual.position);
+            if (d < distanciaMinimaEntreArboles) continue; // demasiado cerca del árbol anterior: no vale la pena pasar por ahí
             if (d < mejorDist)
             {
                 mejorDist = d;
