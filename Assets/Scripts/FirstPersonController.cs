@@ -40,6 +40,10 @@ namespace UnityStandardAssets.Characters.FirstPerson
         [SerializeField] private Animator animator;
     [SerializeField] private string nombreBool = "IsRunning";
 
+    [Header("Posicion inicial")]
+[SerializeField] private bool m_UseInitialPosition = true;
+[SerializeField] private Vector3 m_InitialPosition;
+
         private Camera m_Camera;
         private bool m_Jump;
         private float m_YRotation;
@@ -62,6 +66,12 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
+           if (m_UseInitialPosition)
+{
+    m_CharacterController.enabled = false;
+    transform.position = m_InitialPosition;
+    m_CharacterController.enabled = true;
+}
             m_Camera = Camera.main;
             m_OriginalCameraPosition = m_Camera.transform.localPosition;
             m_FovKick.Setup(m_Camera);
@@ -91,7 +101,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 if (animator != null)
 {
-    animator.SetBool(nombreBool, Input.GetKey(KeyCode.LeftShift));
+    animator.SetBool("IsRunning", !m_IsWalking);
 }
 
 if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -238,7 +248,10 @@ if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
 #if !MOBILE_INPUT
             // On standalone builds, walk/run speed is modified by a key press.
             // keep track of whether or not the character is walking or running
-            m_IsWalking = !Input.GetKey(KeyCode.LeftShift);
+            bool wantsToRun = Input.GetKey(KeyCode.LeftShift);
+bool hasStamina = StaminaBar.instance == null || StaminaBar.instance.CanRun;
+m_IsWalking = !(wantsToRun && hasStamina);  
+
 #endif
             // set the desired speed to be walking or running
             speed = m_IsWalking ? m_WalkSpeed : m_RunSpeed;

@@ -13,6 +13,8 @@ public class FantasmaMovement : MonoBehaviour
     public Transform fps;
     public ParticleSystem particulas; // efecto al teletransportarse
     public ParticleSystem camino;     // partículas fantasma -> fps
+    private AudioSource audioSource;
+    public AudioClip sonidoDesaparecer;
 
     public Transform[] posicionesParque; // 26 elementos, en orden
     public Transform[] posicionesTumba;  // 16 elementos, en orden
@@ -48,7 +50,7 @@ public class FantasmaMovement : MonoBehaviour
     void Start()
     {
 
-
+audioSource = GetComponent<AudioSource>();
 
 
     Collider[] enZona = Physics.OverlapSphere(transform.position, distanciaDeteccion);
@@ -89,6 +91,7 @@ public class FantasmaMovement : MonoBehaviour
         int[][] tabla = etapaActual == Etapa.Parque ? puedoIrParque : puedoIrTumba;
         int[] opciones = tabla[posicionActual];
         particulas.Play(); // al desaparecer
+        audioSource.PlayOneShot(sonidoDesaparecer);
 
         if (opciones.Length == 0)
         {
