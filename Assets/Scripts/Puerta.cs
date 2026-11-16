@@ -5,7 +5,6 @@ using UnityEngine;
 public class Puerta : MonoBehaviour
 {
     public Transform jugador;
-    public GameObject cartel;
     public float distancia = 2f;
     public KeyCode tecla = KeyCode.O;
     public float anguloApertura = 90f;
@@ -18,13 +17,13 @@ public class Puerta : MonoBehaviour
     {
         cerrada = transform.localRotation;
         abierta = cerrada * Quaternion.Euler(0, anguloApertura, 0);
-        cartel.SetActive(false);
+
     }
 
     void Update()
     {
         bool cerca = Vector3.Distance(jugador.position, transform.position) <= distancia;
-        cartel.SetActive(cerca && !moviendo);
+
 
         if (cerca && Input.GetKeyDown(tecla)) Alternar();
         float d = Vector3.Distance(jugador.position, transform.position);
