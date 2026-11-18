@@ -39,8 +39,6 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		[Header("Animacion")]
         [SerializeField] private Animator animator;
     [SerializeField] private string nombreBool = "IsRunning";
-        [SerializeField] private string nombreBoolSaltar = "IsJumping";
-
 
     [Header("Posicion inicial")]
 [SerializeField] private bool m_UseInitialPosition = true;
@@ -103,11 +101,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 if (animator != null)
 {
-    bool moviendose = m_Input.sqrMagnitude > 0.01f;
-    bool corriendo = !m_IsWalking && moviendose && !m_IsCrouching;
-
-    animator.SetBool("IsRunning", corriendo);
-    animator.SetBool("IsJumping", m_Jumping);
+    animator.SetBool("IsRunning", !m_IsWalking);
 }
 
 if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
@@ -172,7 +166,7 @@ if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
             ProgressStepCycle(speed);
             UpdateCameraPosition(speed);
 
-           
+            m_MouseLook.UpdateCursorLock();
         }
 
 
