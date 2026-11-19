@@ -13,7 +13,14 @@ public class targetMonstruo : MonoBehaviour
     public float distanciaLlegada = 0.2f;         // distancia para considerar que el monstruo "llegó"
     public float tiempoGracia = 1.5f;             // segundos que sigue escondiéndose después de perder la luz
     public float distanciaMinimaEntreArboles = 5f; // el árbol siguiente debe estar al menos a esta distancia del anterior; si no, persigue directo
-    public float distanciaHuida = 25f;          // al ser iluminado, se aleja hasta estar al menos a esta distancia del jugador
+    public float distanciaAtaque = 3f;          // a esta distancia o menos (y sin estar iluminado) pasa a la animación de ataque
+    public float distanciaHuida = 25f;
+    public float distanciaLlegadaHuida = 1.5f;  // la huida termina al llegar a esta distancia del escondite del árbol de huida
+    public float tiempoMaxHuida = 15f;          // seguridad: la huida termina sí o sí después de estos segundos
+    [Header("Atascos (si ocurre, persigue directo)")]
+    public float tiempoMaxQuieto = 10f;         // segundos sin moverse
+    public float radioQuieto = 0.5f;            // cuánto tiene que alejarse de su posición para considerar que se movió
+    public float tiempoMaxHaciaArbol = 20f;     // segundos yendo hacia el mismo arbolSiguiente          // al ser iluminado, se aleja hasta estar al menos a esta distancia del jugador
 
     [Header("Árboles (solo lectura, para debug)")]
     public Transform arbolCercaMonstruo;
@@ -24,6 +31,7 @@ public class targetMonstruo : MonoBehaviour
     private enum Fase { Lejos, Siguiente }
     private Fase fase = Fase.Lejos;
     private bool rutaActiva = false;
+    private float tiempoHuyendo = 0f;
     private bool huyendo = false;               // true mientras se aleja del jugador tras ser iluminado
 
     private bool posicionFijada = false;        // true = monstruo iluminado
@@ -33,6 +41,13 @@ public class targetMonstruo : MonoBehaviour
     private Transform[] arboles;
     private Transform ultimoArbolLog;
     private bool avisoPersecucionDirecta = false;
+
+    // Detección de atascos
+    private bool persecucionDirecta = false;    // true = ignora los árboles y persigue al jugador hasta que lo iluminen
+    private Vector3 posicionReferencia;
+    private float tiempoQuieto = 0f;
+    private Transform arbolContado;
+    private float tiempoHaciaArbol = 0f;
 
     void Start()
     {
@@ -62,11 +77,26 @@ public class targetMonstruo : MonoBehaviour
         else if (tiempoGraciaRestante > 0f)
             tiempoGraciaRestante -= Time.deltaTime;
 
+        // Animación: ataca si está cerca y NO está iluminado, escondiéndose ni huyendo.
+        // Si lo iluminan a tiempo, vuelve a la animación de caminar.
+        bool escondido = posicionFijada || huyendo || tiempoGraciaRestante > 0f;
+        bool cercaParaAtacar = DistHoriz(monstruo.transform.position, playerPosition.position) <= distanciaAtaque;
+        monstruo.Atacar(!escondido && cercaParaAtacar);
+
         // 1) Huida: tras ser iluminado, se aleja hasta estar a "distanciaHuida" del jugador.
         //    Sigue huyendo aunque la luz ya no lo toque.
         if (huyendo)
         {
-            if (DistHoriz(monstruo.transform.position, playerPosition.position) >= distanciaHuida)
+            tiempoHuyendo += Time.deltaTime;
+
+            bool lejosSuficiente = DistHoriz(monstruo.transform.position, playerPosition.position) >= distanciaHuida;
+            bool llegoAlEscondite = arbolHuida != null &&
+                DistHoriz(monstruo.transform.position, PosicionDetras(arbolHuida)) <= distanciaLlegadaHuida;
+            bool demasiadoTiempo = tiempoHuyendo >= tiempoMaxHuida;
+
+            // La huida termina al estar lo bastante lejos, o al llegar al árbol de huida (aunque el
+            // jugador se haya acercado), o si tarda demasiado. Después sigue el comportamiento normal.
+            if (lejosSuficiente || llegoAlEscondite || demasiadoTiempo)
             {
                 huyendo = false;
                 arbolHuida = null;
@@ -75,6 +105,7 @@ public class targetMonstruo : MonoBehaviour
             {
                 IrA(arbolHuida);
                 rutaActiva = false;
+                persecucionDirecta = false;
                 return;
             }
         }
@@ -84,6 +115,7 @@ public class targetMonstruo : MonoBehaviour
         {
             ActualizarIluminado();
             rutaActiva = false;
+            persecucionDirecta = false;
             return;
         }
 
@@ -113,6 +145,7 @@ public class targetMonstruo : MonoBehaviour
         {
             arbolHuida = ElegirArbolHuida();
             huyendo = arbolHuida != null;
+            tiempoHuyendo = 0f;
 
             if (!huyendo)
                 Debug.LogWarning("targetMonstruo: no hay árboles a " + distanciaHuida + " unidades o más del jugador para huir.");
@@ -146,8 +179,22 @@ public class targetMonstruo : MonoBehaviour
     // ---------- Monstruo en la oscuridad ----------
     void ActualizarOculto()
     {
+        // Atascado: se olvida de los árboles y va directo al jugador hasta que lo iluminen de nuevo
+        if (persecucionDirecta)
+        {
+            transform.position = playerPosition.position;
+            return;
+        }
+
         if (!rutaActiva)
             IniciarRuta();
+
+        if (HayAtasco())
+        {
+            persecucionDirecta = true;
+            transform.position = playerPosition.position;
+            return;
+        }
 
         if (arbolLejosPlayer == null)
         {
@@ -186,6 +233,58 @@ public class targetMonstruo : MonoBehaviour
         arbolLejosPlayer = ElegirArbolLejosPlayer();
         arbolSiguiente = SiguienteMasCercanoAlJugador(arbolLejosPlayer);
         rutaActiva = true;
+
+        posicionReferencia = monstruo.transform.position;
+        tiempoQuieto = 0f;
+        arbolContado = null;
+        tiempoHaciaArbol = 0f;
+    }
+
+    // true si el monstruo lleva demasiado tiempo en el mismo lugar o yendo hacia el mismo arbolSiguiente
+    bool HayAtasco()
+    {
+        // 1) Sin moverse: se considera que se movió si se alejó "radioQuieto" de su posición de referencia
+        Vector3 pos = monstruo.transform.position;
+        if (DistHoriz(pos, posicionReferencia) > radioQuieto)
+        {
+            posicionReferencia = pos;
+            tiempoQuieto = 0f;
+        }
+        else
+        {
+            tiempoQuieto += Time.deltaTime;
+            if (tiempoQuieto >= tiempoMaxQuieto)
+            {
+                Debug.Log("targetMonstruo: el monstruo estuvo " + tiempoMaxQuieto + " s sin moverse, persigue directo.");
+                return true;
+            }
+        }
+
+        // 2) Demasiado tiempo yendo hacia el mismo arbolSiguiente (el contador se reinicia con cada árbol nuevo)
+        if (fase == Fase.Siguiente && arbolSiguiente != null)
+        {
+            if (arbolSiguiente != arbolContado)
+            {
+                arbolContado = arbolSiguiente;
+                tiempoHaciaArbol = 0f;
+            }
+            else
+            {
+                tiempoHaciaArbol += Time.deltaTime;
+                if (tiempoHaciaArbol >= tiempoMaxHaciaArbol)
+                {
+                    Debug.Log("targetMonstruo: " + tiempoMaxHaciaArbol + " s yendo hacia '" + arbolSiguiente.name + "', persigue directo.");
+                    return true;
+                }
+            }
+        }
+        else
+        {
+            arbolContado = null;
+            tiempoHaciaArbol = 0f;
+        }
+
+        return false;
     }
 
     // Si no hay árbol siguiente, va directo al jugador.
