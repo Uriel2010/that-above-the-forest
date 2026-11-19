@@ -9595,6 +9595,10 @@ MonoBehaviour:
   desaceleracionFrenado: 40
   animator: {fileID: 0}
   parametroAtaque: Atacando
+  mostrarDebug: 1
+  modelo: {fileID: 0}
+  anguloInclinacion: 40
+  duracionInclinacion: 0.75
 --- !u!4 &1363205444
 Transform:
   m_ObjectHideFlags: 0
@@ -15461,7 +15465,13 @@ MonoBehaviour:
   distanciaLlegada: 1
   tiempoGracia: 3
   distanciaMinimaEntreArboles: 11
+  distanciaAtaque: 3
   distanciaHuida: 35
+  distanciaLlegadaHuida: 1.5
+  tiempoMaxHuida: 15
+  tiempoMaxQuieto: 10
+  radioQuieto: 0.5
+  tiempoMaxHaciaArbol: 20
   arbolCercaMonstruo: {fileID: 0}
   arbolSiguiente: {fileID: 0}
   arbolLejosPlayer: {fileID: 0}
