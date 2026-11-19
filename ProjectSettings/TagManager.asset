@@ -8,6 +8,7 @@ TagManager:
   - Tree
   - pala
   - pie
+  - Monstruo
   layers:
   - Default
   - TransparentFX

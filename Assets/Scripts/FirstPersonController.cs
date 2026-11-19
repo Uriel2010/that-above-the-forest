@@ -11,6 +11,7 @@ namespace UnityStandardAssets.Characters.FirstPerson
     [RequireComponent(typeof (AudioSource))]
     public class FirstPersonController : MonoBehaviour
     {
+        public bool jugadorMuerto = false;
         [SerializeField] private bool m_IsWalking;
         [SerializeField] private float m_WalkSpeed;
         [SerializeField] private float m_RunSpeed;
@@ -330,8 +331,15 @@ m_IsWalking = !(wantsToRun && hasStamina);
 
         private void OnControllerColliderHit(ControllerColliderHit hit)
         {
+            // Detectar colisión con el monstruo
+            if (hit.gameObject.CompareTag("Monstruo"))
+            {
+                jugadorMuerto = true;
+            }
+
             Rigidbody body = hit.collider.attachedRigidbody;
-            //dont move the rigidbody if the character is on top of it
+
+            // No mover el Rigidbody si el personaje está encima
             if (m_CollisionFlags == CollisionFlags.Below)
             {
                 return;
@@ -341,7 +349,8 @@ m_IsWalking = !(wantsToRun && hasStamina);
             {
                 return;
             }
-            body.AddForceAtPosition(m_CharacterController.velocity*0.1f, hit.point, ForceMode.Impulse);
+
+            body.AddForceAtPosition(m_CharacterController.velocity * 0.1f, hit.point, ForceMode.Impulse);
         }
     }
 }
