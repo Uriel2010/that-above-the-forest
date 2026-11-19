@@ -2912,7 +2912,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::FinJuego
   panelGanaste: {fileID: 1213037948}
   panelPerdiste: {fileID: 510949917}
-  jugador: {fileID: 0}
+  jugador: {fileID: 1428128506}
+  monstruo: {fileID: 1363205442}
   retrasoPanel: 1
 --- !u!4 &799644474
 Transform:
@@ -5711,6 +5712,17 @@ CapsuleCollider:
   m_Height: 1
   m_Direction: 1
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &1428128506 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8301348219249617277, guid: d23a71d629ca2cb428e58efdcf5d4c1b, type: 3}
+  m_PrefabInstance: {fileID: 1189368409}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1428128480}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 05ec5cf00ca181d45a42ba1870e148c3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1432005319
 GameObject:
   m_ObjectHideFlags: 0
