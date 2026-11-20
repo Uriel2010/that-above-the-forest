@@ -12,6 +12,16 @@ public class Monstruo : MonoBehaviour
     [Header("Linterna")]
     [SerializeField] private LanternController linterna;
 
+    [Header("Contacto con el jugador")]
+    [Tooltip("Se vuelve true cuando el monstruo toca al jugador")]
+    public bool jugadorMuerto = false;
+
+    [Header("Collider")]
+    [Tooltip("Collider del monstruo (Capsule o Sphere). Si queda vacío se busca en el monstruo y sus hijos.")]
+    [SerializeField] private Collider colisionador;
+    [SerializeField] private float radioNormal = 0.6f;     // radio del collider caminando
+    [SerializeField] private float radioAtacando = 2.3f;   // radio del collider atacando
+
     [Header("Frenado al ser iluminado")]
     [SerializeField] private float desaceleracionFrenado = 40f; // unidades/s² (más alto = frena más rápido)
 
@@ -42,6 +52,19 @@ public class Monstruo : MonoBehaviour
     {
         agent = GetComponent<NavMeshAgent>();
         agent.speed = velocidad;
+
+        // Collider cuyo radio cambia al atacar (Capsule o Sphere)
+        if (colisionador == null)
+        {
+            colisionador = GetComponentInChildren<CapsuleCollider>();
+            if (colisionador == null)
+                colisionador = GetComponentInChildren<SphereCollider>();
+        }
+
+        if (colisionador == null)
+            Debug.LogWarning("Monstruo: no se encontró un CapsuleCollider ni un SphereCollider para cambiar el radio al atacar.");
+        else
+            AplicarRadio(radioNormal);
 
         if (animator == null)
             animator = GetComponentInChildren<Animator>();
@@ -155,6 +178,63 @@ public class Monstruo : MonoBehaviour
         modelo.localRotation = Quaternion.Euler(inclinacionActual, 0f, 0f) * rotacionBase;
     }
 
+    void AplicarRadio(float radio)
+    {
+        CapsuleCollider capsula = colisionador as CapsuleCollider;
+        if (capsula != null)
+        {
+            capsula.radius = radio;
+            return;
+        }
+
+        SphereCollider esfera = colisionador as SphereCollider;
+        if (esfera != null)
+            esfera.radius = radio;
+    }
+
+    void MatarJugador()
+    {
+        jugadorMuerto = true;
+        Debug.Log("Monstruo: el monstruo colisionó con el jugador (jugadorMuerto = true)");
+    }
+
+    // El jugador muere SOLO por colisión con el collider del monstruo (no por distancia).
+    // Se acepta el tag "Player" en el collider tocado o en alguno de sus padres.
+    bool EsJugador(Collider c)
+    {
+        for (Transform t = c.transform; t != null; t = t.parent)
+            if (t.tag == "Player")
+                return true;
+        return false;
+    }
+
+    // Collider sólido (si el monstruo tiene Rigidbody)
+    void OnCollisionEnter(Collision collision)
+    {
+        if (!jugadorMuerto && EsJugador(collision.collider))
+            MatarJugador();
+    }
+
+    void OnCollisionStay(Collision collision)
+    {
+        if (!jugadorMuerto && EsJugador(collision.collider))
+            MatarJugador();
+    }
+
+    // Collider marcado como Is Trigger
+    void OnTriggerEnter(Collider other)
+    {
+        if (!jugadorMuerto && EsJugador(other))
+            MatarJugador();
+    }
+
+    // Por si el collider crece (ataque) estando ya encima del jugador
+    void OnTriggerStay(Collider other)
+    {
+        if (!jugadorMuerto && EsJugador(other))
+            MatarJugador();
+    }
+
     // Llamado por targetMonstruo cada frame: true = animación de ataque, false = animación de caminar
     public void Atacar(bool valor)
     {
@@ -162,6 +242,8 @@ public class Monstruo : MonoBehaviour
             return;
 
         atacando = valor;
+        AplicarRadio(valor ? radioAtacando : radioNormal);
+
         if (mostrarDebug)
             Debug.Log("Monstruo: " + (valor ? "pasa a la animación de ATAQUE" : "vuelve a la animación de CAMINAR"));
 
