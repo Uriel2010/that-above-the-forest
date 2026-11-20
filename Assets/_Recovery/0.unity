@@ -7225,6 +7225,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: WFX_SmokeGrenade Additive
       objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: 4ecfa3d3919108f4fbff80d1c4d920a1, type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 400000, guid: 4ecfa3d3919108f4fbff80d1c4d920a1, type: 3}
       propertyPath: m_LocalPosition.x
       value: 0.17766953
@@ -8963,7 +8967,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!199 &1970484726
 ParticleSystemRenderer:
   serializedVersion: 7
