@@ -6,46 +6,25 @@ public class FinJuego : MonoBehaviour
 {
     public GameObject panelGanaste;
     public GameObject panelPerdiste;
-    public UnityStandardAssets.Characters.FirstPerson.FirstPersonController jugador;
+    public GameObject jugador;
     public GameObject monstruo;
     public float retrasoPanel = 1f;
 
     bool terminado = false;
-    Vector3 posJugadorInicial;
-    Vector3 posMonstruoInicial;
-    Quaternion rotMonstruoInicial;
 
-        void Start()
+        void Update()
     {
-        posJugadorInicial = jugador.transform.position;
-        posMonstruoInicial = monstruo.transform.position;
-        rotMonstruoInicial = monstruo.transform.rotation;
-    }
+        bool muerto = jugador.GetComponent<FirstPersonController>().jugadorMuerto;
 
-    void Update()
-    {
-        if (!terminado && jugador != null && jugador.jugadorMuerto)
+        if (!terminado && muerto)
         {
             terminado = true;
-            Morir();
+            monstruo.SetActive(false);
+            jugador.GetComponent<FirstPersonController>().enabled = false;
             Invoke(nameof(Perder), retrasoPanel);
         }
     }
-        void Morir()
-    {
-        // restaurar posiciones
-        CharacterController cc = jugador.GetComponent<CharacterController>();
-        cc.enabled = false;
-        jugador.transform.position = posJugadorInicial;
-        cc.enabled = true;
 
-        monstruo.transform.position = posMonstruoInicial;
-        monstruo.transform.rotation = rotMonstruoInicial;
-
-        // frenar todo
-        monstruo.SetActive(false);
-        jugador.enabled = false;
-    }
         public void Ganar()
     {
         Mostrar(panelGanaste);

@@ -1,4 +1,4 @@
-﻿// CHANGE LOG
+﻿/* // CHANGE LOG
 // 
 // CHANGES || version VERSION
 //
@@ -739,4 +739,4 @@ public class FirstPersonController : MonoBehaviour
 
 }
 
-#endif
+#endif */

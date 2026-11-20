@@ -40,6 +40,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
 		[Header("Animacion")]
         [SerializeField] private Animator animator;
     [SerializeField] private string nombreBool = "IsRunning";
+    [SerializeField] private string nombreBoolSaltar = "IsJumping";
+
 
     [Header("Posicion inicial")]
 [SerializeField] private bool m_UseInitialPosition = true;
@@ -67,6 +69,8 @@ namespace UnityStandardAssets.Characters.FirstPerson
         private void Start()
         {
             m_CharacterController = GetComponent<CharacterController>();
+            if (animator == null)
+    animator = GetComponentInChildren<Animator>();
            if (m_UseInitialPosition)
 {
     m_CharacterController.enabled = false;
@@ -103,9 +107,13 @@ namespace UnityStandardAssets.Characters.FirstPerson
 
 if (animator != null)
 {
-    animator.SetBool("IsRunning", !m_IsWalking);
-}
+    bool moviendose = m_Input.sqrMagnitude > 0.01f;
+    bool corriendo = !m_IsWalking && moviendose && !m_IsCrouching;
+   
 
+    animator.SetBool("IsRunning", corriendo);
+    animator.SetBool("IsJumping", m_Jumping);
+}
 if (!m_PreviouslyGrounded && m_CharacterController.isGrounded)
 {
     StartCoroutine(m_JumpBob.DoBobCycle());
@@ -335,6 +343,7 @@ m_IsWalking = !(wantsToRun && hasStamina);
             if (hit.gameObject.CompareTag("Monstruo"))
             {
                 jugadorMuerto = true;
+                Debug.Log("COLISIÓN CON MONSTRUO");
             }
 
             Rigidbody body = hit.collider.attachedRigidbody;
