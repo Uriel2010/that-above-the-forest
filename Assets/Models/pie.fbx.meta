@@ -28,7 +28,7 @@ ModelImporter:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
       name: piel
-    second: {fileID: 2100000, guid: d41ebec7f68264584a2d712fed727cc2, type: 2}
+    second: {fileID: 2100000, guid: d2706928d8a714743a8a75e801e64d61, type: 2}
   - first:
       type: UnityEngine:Material
       assembly: UnityEngine.CoreModule
