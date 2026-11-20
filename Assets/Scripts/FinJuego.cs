@@ -4,6 +4,8 @@ using UnityStandardAssets.Characters.FirstPerson;
 
 public class FinJuego : MonoBehaviour
 {
+    public GameObject pie; 
+    public GameObject BOLSADELNENE;
     public GameObject panelGanaste;
     public GameObject panelPerdiste;
     public GameObject jugador;
@@ -23,6 +25,14 @@ public class FinJuego : MonoBehaviour
             jugador.GetComponent<FirstPersonController>().enabled = false;
             Invoke(nameof(Perder), retrasoPanel);
         }
+        if (!terminado && !muerto && !pie.activeSelf && !BOLSADELNENE.activeSelf)
+        {
+            terminado = true;
+            monstruo.SetActive(false);
+            jugador.GetComponent<FirstPersonController>().enabled = false;
+            Invoke(nameof(Ganar), retrasoPanel);
+        }
+
     }
 
         public void Ganar()

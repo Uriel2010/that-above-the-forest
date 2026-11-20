@@ -3496,6 +3496,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2f084b837658a4d61ade4fb1a89f1719, type: 3}
   m_Name: 
   m_EditorClassIdentifier: Assembly-CSharp::FinJuego
+  pie: {fileID: 2128428098}
+  BOLSADELNENE: {fileID: 1571567965}
   panelGanaste: {fileID: 1213037948}
   panelPerdiste: {fileID: 510949917}
   jugador: {fileID: 1428128480}
@@ -8772,7 +8774,7 @@ MeshCollider:
   serializedVersion: 5
   m_Convex: 1
   m_CookingOptions: 30
-  m_Mesh: {fileID: -6301207979791077724, guid: 2e8da260ca3694b29a7116142df74c4e, type: 3}
+  m_Mesh: {fileID: 8691780276856062721, guid: 1ee008712b3a9fd4f8df3bc501c66d25, type: 3}
 --- !u!82 &1926597635
 AudioSource:
   m_ObjectHideFlags: 0
